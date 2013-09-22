@@ -1,0 +1,82 @@
+{block 120}
+( - node) # 708 ( paths)
+: line ( ncd) swap push swap | indent
+     begin dup , over + -next drop drop ;
+: count ( nc-ncd) dup [ 100 ] mod [ 0 ] + if | cr
+( horz) swap drop [ 1 ] ; ( vert) ] then drop [ 100 ] / [ 100 ] ;
+: to ( nn) over negate + -if | cr
+( back) negate count negate line ; | cr
+( forw) ] then count line ; | br
+
+: 0pa align create [ 708 700 to 600 0 to | cr
+1 17 to 117 717 to 716 708 to -1 , ]
+: 1pa align create [ 708 701 to 700 600 to -1 , ]
+: 2pa align create [ 708 508 to 507 500 to -1 , 
+
+
+{block 200}
+( user f18 code) reclaim | br
+
+( softsim example) reclaim 0 node 1342 load | cr
+( practical example pwm code) reclaim 842 load reclaim 930 load
+
+{block 202}
+( ga application tools)
+: a-com [ 1 ] ; | *
+: a-bps 921600 ;
+: c-com [ 3 ] ; | *
+: c-bps 921600 ;
+: host 206 ; | *
+: target 208 ; | , ( modules) | *
+: sram [ 264 ] ; | , ( utils) | *
+: streamer [ 282 ] ; | *
+: loader [ 210 ] ; | , | ,
+: selftest ( port) [ 708 ] load ; :var stp [0x3]
+: autotest ( port) [ 712 ] load ;
+
+{block 842}
+( pwm demo) 600 node 0 org | br
+
+
+: pol = $0 @b $2000 ( dw) and if | cr
+( ...) = $3 ( ...) down b! @b push ex | cr
+
+: rtn = $6 ( ...) io b! then = $8 drop | br
+
+( cyc ie-) dup for $3ffff for . unext next | indent
+           $10000 !b | indent
+           dup for $3ffff for . unext next | indent
+           $20000 !b pol ;
+
+: upd = $16 ( xex-) drop 200 pop rtn ;
+
+{block 844}
+( demo ide boot) empty compile serial load | br
+
+( customize) -canon 0 fh orgn ! | cr
+a-com sport ! a-bps bps ! !nam | br
+
+
+: seed ( n) $17 r! $16 call upd ; | br
+: seed1 1 600 hook seed ; | br
+: seed2 2 500 hook seed ; | cr
+
+: run talk 
+     1 600 hook 0 64 600 boot | indent
+     2 500 hook 0 64 500 boot | indent
+     upd ?ram panel 0 lit  100 seed1 100 seed2 ;
+
+{block 930}
+( pwm demo) 500 node 0 org | br
+
+: pol = $0 @b $8200 ( dw) and if | cr
+( ...) = $3 ( ...) $1c5 b! @b push ex | cr
+
+: rtn = $6 ( ...) io b! then = $8 drop | br
+
+( cyc ie-) dup for $3ffff for . unext next | indent
+           $10000 !b | indent
+           dup for $3ffff for . unext next | indent
+           $20000 !b pol ;
+
+: upd = $16 ( xex-) drop 200 pop rtn ;

@@ -1,0 +1,52 @@
+{block 202}
+( ga application tools)
+: a-com [ 1 ] ; | *
+: a-bps 921600 ;
+: c-com [ 3 ] ; | *
+: c-bps 921600 ;
+: host 206 ; | *
+: target 208 ; | , ( modules) | *
+: sram [ 264 ] ; | , ( utils) | *
+: streamer [ 282 ] ; | *
+: loader [ 210 ] ; | , | ,
+: selftest ( port) [ 708 ] load ; :var stp [0x3]
+: autotest ( port) [ 712 ] load ;
+
+{block 842}
+500 node 0 org
+: pol @b $200 ( uw ) and if | cr
+      up b! @b push ex | cr
+: rtn io b! then drop | br
+
+      $1ffff and over . + -if | cr
+      $20000 !b pol ; ] | cr
+      then $10000 !b pol ; | br
+
+: upd drop push push drop $100 | cr
+      pop pop rtn ;
+
+{block 830}
+600 node 0 org
+: pol @b $200 ( uw ) and if | cr
+      down b! @b push ex | cr
+: rtn io b! then drop | br
+      200 for $3ffff for - and next next | cr
+      $10000 !b | cr
+      200 for $3ffff for - and next next | cr
+      $20000 !b pol ; | br
+
+: upd drop push push drop $100 | cr
+      pop pop rtn ;
+
+{block 844}
+empty compile serial load | br
+
+-canon 0 fh orgn ! | cr
+a-com sport ! a-bps bps ! !nam | br
+
+: seed $13 r! $12 call upd ; | br
+
+: run talk 0 600 hook 0 64 600 boot | indent
+      talk 0 500 hook 0 64 500 boot | indent
+      upd ?ram panel 0 lit $18000 seed ;
+
