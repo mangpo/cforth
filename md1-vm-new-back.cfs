@@ -27,7 +27,7 @@
 : autotest ( port) [ 712 ] load ;
 
 {block 216}
-792 load 1072 load 0 $3f 308 break
+792 load 1072 load 0 $19 208 break
 
 {block 360}
 ( polyforth vm) reclaim | ,
@@ -78,13 +78,21 @@ target | cr
 515 node 84 fh load
 516 node 86 fh load
 517 node 88 fh load
+
 113 node 1050 load
 112 node 1052 load
 111 node 1054 load
 110 node 1056 load
 109 node 1058 load
-108 node 1062 load
-208 node 1060 load
+108 node 1060 load
+
+308 node 1020 load
+408 node 1022 load
+508 node 1024 load
+608 node 1026 load
+609 node 1028 load
+610 node 1030 load
+611 node 1032 load
 
 {block 792}
 ( - load descriptor)
@@ -124,7 +132,14 @@ target | cr
 110 /node left /p
 109 /node right /p
 108 /node right /b up /a up /p 
-208 /node up /b down /a down /p
+
+308 /node 0 /p
+408 /node 0 /p
+508 /node 0 /p
+608 /node 0 /p
+609 /node 0 /p
+610 /node 0 /p
+611 /node 0 /p
 
 {block 804}
 ( -) # 2 ( mem 2) 0 org | cr
@@ -405,7 +420,7 @@ target | cr
 : sumrotate = $0 down b! @b right b! !b = $0 ; | cr
 : main = $0 0 a! @+ 277 b! !b @+ 469 b! !b 2 a! @+ 469 b! !b @+ 277 b! !b | cr
   63 for | cr
-    sumrotate next a a or 92rep over dup or a! !+ a 93rep 1 a! !+ a 93rep 2 a! !+ a 92rep 3 b! !b main = $0 ; | cr
+    sumrotate next a a or 92rep over dup or a! !+ a 93rep 1 a! !+ a 93rep 2 a! !+ a 92rep dup 3 b! !b up b! !b main = $0 ; | cr
 
 {block 868}
 ( -) # 304 ( mem 8) 0 org | cr
@@ -528,11 +543,11 @@ target | cr
   begin @ - -while - !b end then - !b ;
 
 {block 1060}
-( - snorkel interface 208) 0 org | cr
-: /md5 @p !b [ .. /2count .. ] ! ; | cr
+( - snorkel interface) 0 org | cr
+: /md5 @p !b [ .. /count .. ] ! ; | cr
 : swab a push a! $10000 a
   7 for +* unext pop a! ; | cr
-: md5/ = $9 -1 !b ( 7 for @b swab ! next) 7 for 0 ! next = $f ; | cr
+: md5/ -1 !b ( 7 for @b swab ! next) ; | cr
 : !hi dup 7 for 2/ unext | cr
 : !lo $ff and !b ; | cr
 : md5 @ @ -1 . + -if dup ! ; ] then | cr
@@ -540,32 +555,53 @@ target | cr
 : loop @ !hi zif dup ! ; ] then | cr
   then !lo zif dup ! ; ] then loop ;
 
-{block 1062}
-( - snorkel interface 108) 0 org | cr
-: /2count @p !b [ .. /count .. ] | cr
-: /2msg begin @ - -while - !b end then - !b ;
-
 {block 1068}
 ( softsim test md5) 208 node 0 org | cr
 : start up a! @p [ .. /md5 .. ] ! @ | cr
   .. @p ! [ .. md5 .. ] ( adr) 0 ! ( len) 3 ! | cr
   ( ab) $6162 ! ( c) $6300 ! @ | cr
   .. @p ! [ .. md5/ .. ]
-  7 for @ unext .. warm = $0 ;
+  warm = $0 ;
 
 {block 1070}
-( softsim test md5) 308 node 0 org | cr
+( softsim test md5) 208 node 0 org | cr
 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 ,
-0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 ,
-0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 ,
-0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 ,
-0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 ,
-: start = $20 down b! @p [ .. /md5 .. ] !b @b | cr
-  .. @p !b [ .. md5 .. ] ( adr) 0 !b ( len) 80 !b | cr
-  dup dup or a! 39 for @+ !b unext @b | cr
-  .. @p !b [ .. md5/ .. ]
-  7 for @b unext .. warm = $0 ;
+: start = $20 up b! @p [ .. /md5 .. ] !b @b | cr
+  .. @p !b [ .. md5 .. ] ( adr) 0 !b ( len) 16 dup push !b | cr
+  dup dup or a! 7 for @+ !b unext @b | cr
+  .. @p !b [ .. md5/ .. ] | cr
+  down b!
+  pop 8 + begin 2/ 2/ 2/ 2/ 2/ 2/ while @b end then @b ;
+  warm = $0 ;
 
 {block 1072}
 ( softsim test config) | cr
-308 +node 308 /ram $28 /p
+208 +node 208 /ram $8 /p
+
+{block 1020}
+( 300) 0 org
+: pass up b! down a! begin @b ! end ;
+
+{block 1022}
+( 400) 0 org
+: pass down b! up a! begin @b ! end ;
+
+{block 1024}
+( 500) 0 org
+: pass up b! down a! begin @b ! end ;
+
+{block 1026}
+( 600) 0 org
+: pass right b! up a! begin @b ! end ;
+
+{block 1028}
+( 601) 0 org
+: pass left b! right a! begin @b ! end ;
+
+{block 1030}
+( 602) 0 org
+: pass right b! left a! begin @b ! end ;
+
+{block 1032}
+( 603) 0 org
+: pass up b! right a! begin @b ! end ;
