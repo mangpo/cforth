@@ -27,7 +27,7 @@
 : autotest ( port) [ 712 ] load ;
 
 {block 216}
-792 load 1072 load 0 $19 208 break
+792 load 1072 load 0 $3f 308 break
 
 {block 360}
 ( polyforth vm) reclaim | ,
@@ -44,6 +44,23 @@
 : start @ !b start ; 1709 bin | ,
 ( ganglia) 44 fh load ( snorkel) 48 fh load | ,
 ( spi) 50 fh load
+
+{block 362}
+( - load descriptors)
+: l, dup +node 100 /mod 1 and 2* swap 1 and + 1714 + 
+  push 32 32 pop /part ( warm) $a9 /p ;
+: ganglia nns for i -1 + n-nn l, next ; | ,
+
+( sea of mk1) ganglia | ,
+( snorkel) 207 +node 1605 /ram up /b $37 /p | ,
+( sram) sram 2 + load | ,
+( vm) 2 fh load | ,
+( serial) 4 fh load | ,
+( additional i/o) 6 fh load | ,
+( md5) 792 load | ,
+( clock nodes) exit | ,
+517 +node 517 /ram io /b $200 /p | ,
+516 +node 516 /ram left dup /a /p right /b | ,
 
 {block 790}
 ( fir) host | *
@@ -83,7 +100,8 @@ target | cr
 111 node 1054 load
 110 node 1056 load
 109 node 1058 load
-108 node 1060 load
+108 node 1062 load
+208 node 1060 load
 
 {block 792}
 ( - load descriptor)
@@ -123,6 +141,7 @@ target | cr
 110 /node left /p
 109 /node right /p
 108 /node right /b up /a up /p 
+208 /node up /b down /a down /p
 
 {block 804}
 ( -) # 2 ( mem 2) 0 org | cr
@@ -526,11 +545,11 @@ target | cr
   begin @ - -while - !b end then - !b ;
 
 {block 1060}
-( - snorkel interface) 0 org | cr
-: /md5 @p !b [ .. /count .. ] ! ; | cr
+( - snorkel interface 208) 0 org | cr
+: /md5 @p !b [ .. /2count .. ] ! ; | cr
 : swab a push a! $10000 a
   7 for +* unext pop a! ; | cr
-: md5/ -1 !b ( 7 for @b swab ! next) ; | cr
+: md5/ = $9 -1 !b ( 7 for @b swab ! next) 7 for 0 ! next = $f ; | cr
 : !hi dup 7 for 2/ unext | cr
 : !lo $ff and !b ; | cr
 : md5 @ @ -1 . + -if dup ! ; ] then | cr
@@ -538,23 +557,32 @@ target | cr
 : loop @ !hi zif dup ! ; ] then | cr
   then !lo zif dup ! ; ] then loop ;
 
+{block 1062}
+( - snorkel interface 108) 0 org | cr
+: /2count @p !b [ .. /count .. ] | cr
+: /2msg begin @ - -while - !b end then - !b ;
+
 {block 1068}
 ( softsim test md5) 208 node 0 org | cr
 : start up a! @p [ .. /md5 .. ] ! @ | cr
   .. @p ! [ .. md5 .. ] ( adr) 0 ! ( len) 3 ! | cr
   ( ab) $6162 ! ( c) $6300 ! @ | cr
   .. @p ! [ .. md5/ .. ]
-  warm = $0 ;
+  7 for @ unext .. warm = $0 ;
 
 {block 1070}
-( softsim test md5) 208 node 0 org | cr
+( softsim test md5) 308 node 0 org | cr
 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 ,
-: start = $20 up b! @p [ .. /md5 .. ] !b @b | cr
-  .. @p !b [ .. md5 .. ] ( adr) 0 !b ( len) 16 !b | cr
-  dup dup or a! 7 for @+ !b unext @b | cr
+0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 ,
+0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 ,
+0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 ,
+0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 ,
+: start = $20 down b! @p [ .. /md5 .. ] !b @b | cr
+  .. @p !b [ .. md5 .. ] ( adr) 0 !b ( len) 80 !b | cr
+  dup dup or a! 39 for @+ !b unext @b | cr
   .. @p !b [ .. md5/ .. ]
-  warm = $0 ;
+  7 for @b unext .. warm = $0 ;
 
 {block 1072}
 ( softsim test config) | cr
-208 +node 208 /ram $8 /p
+308 +node 308 /ram $28 /p

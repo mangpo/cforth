@@ -45,6 +45,23 @@
 ( ganglia) 44 fh load ( snorkel) 48 fh load | ,
 ( spi) 50 fh load
 
+{block 362}
+( - load descriptors)
+: l, dup +node 100 /mod 1 and 2* swap 1 and + 1714 + 
+  push 32 32 pop /part ( warm) $a9 /p ;
+: ganglia nns for i -1 + n-nn l, next ; | ,
+
+( sea of mk1) ganglia | ,
+( snorkel) 207 +node 1605 /ram up /b $37 /p | ,
+( sram) sram 2 + load | ,
+( vm) 2 fh load | ,
+( serial) 4 fh load | ,
+( additional i/o) 6 fh load | ,
+( md5) 792 load | ,
+( clock nodes) exit | ,
+517 +node 517 /ram io /b $200 /p | ,
+516 +node 516 /ram left dup /a /p right /b | ,
+
 {block 790}
 ( fir) host | *
 target | cr
