@@ -2,7 +2,7 @@ CF2F=./cf2f.py
 F2CF=./f2cf.py
 BACK_CF=./OkadBack.cf
 WORK_CF=./OkadWork.cf
-NEW_CFS=function.cfs
+NEW_CFS=matrix-opt.cfs
 
 all: work.cf
 

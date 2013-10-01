@@ -80,22 +80,22 @@ target | cr
 301 /node $12 /p
 
 {block 812}
-( -) # 101 ( mem 18) 0 org | cr
+( -) # 101 ( mem 4) 0 org | cr
 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
 : main = $0 | cr
   0 16 b! !b 3 for | cr
     | cr
     0 17 b! !b 3 for | cr
       up b! @b 4 16 b! @b | cr
-      a! 0 17 for +* unext drop drop a 17 b! @b . + b! !b 17 b! @b 1 . + !b next 16 b! @b 1 . + !b next 0 b! @b left b! !b warm = $0 ; | cr
+      a! 0 17 for +* unext drop drop a 17 b! @b . + a! ! 1 @b . + !b next 16 b! @b 1 . + !b next 373 dup a! dup or b! @b ! warm = $0 ; | cr
 
 {block 814}
 ( -) # 102 ( mem 0) 0 org | cr
 | br
-: main = $0 left b! @b warm = $0 ; | cr
+: main = $0 left b! @b  warm = $0 ; | cr
 
 {block 820}
-( -) # 200 ( mem 18) 0 org | cr
+( -) # 200 ( mem 4) 0 org | cr
 0 , 5 , 8 , 9 , 6 , 4 , 7 , 2 , 7 , 6 , 10 , 4 , 5 , 8 , 9 , 0 , 0 , 0 , | br
 : main = $0 | cr
   3 for | cr
@@ -112,21 +112,21 @@ target | cr
 : main = $0 | cr
   3 for | cr
     | cr
-    1 a! 3 for | cr
+    3 dup 2/ a! for | cr
       down b! @b !+ next | cr
     3 for | cr
-      0 0 b! !b | cr
-      1 a! 3 for | cr
-        0 b! @b @+ right b! @b a push | cr
-        a! 0 17 for +* unext drop drop a pop a! . + 0 b! !b next 0 b! @b up b! !b next next warm = $0 ; | cr
+      a a or dup b! !b | cr
+      3 dup 2/ a! for | cr
+        dup dup or b! @b @+ 469 b! a push @b | cr
+        a! 0 17 for +* unext drop drop a pop a! a dup or b! . + !b next 325 dup a! dup or b! @b ! next next warm = $0 ; | cr
 
 {block 832}
-( -) # 301 ( mem 18) 0 org | cr
+( -) # 301 ( mem 4) 0 org | cr
 0 , 9 , 10 , 10 , 0 , 0 , 4 , 8 , 3 , 1 , 10 , 8 , 3 , 10 , 3 , 9 , 0 , 0 , | br
 : main = $0 | cr
   0 16 b! !b 3 for | cr
     | cr
     0 17 b! !b 3 for | cr
       4 16 b! @b | cr
-      a! 0 17 for +* unext drop drop a 17 b! @b . + b! @b down b! !b 17 b! @b 1 . + !b next 16 b! @b 1 . + !b next warm = $0 ; | cr
+      a! 0 17 for +* unext drop drop a 17 b! @b . + a! @+ 277 a! ! 17 b! @b 1 . + !b next 16 b! @b 1 . + !b next warm = $0 ; | cr
 
