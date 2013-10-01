@@ -1,0 +1,132 @@
+{block 200}
+( user f18 code) reclaim 790 load | br
+
+( softsim example reclaim) # 0 ( node) # 1342 ( load) | cr
+( practical example pwm code reclaim) # 842 ( load)
+
+{block 202}
+( ga application tools)
+: a-com [ 1 ] ; | *
+: a-bps 921600 ;
+: c-com [ 3 ] ; | *
+: c-bps 921600 ;
+: host 206 ; | *
+: target 208 ; | , 
+
+( modules) | *
+: sram [ 264 ] ; | *
+: pf [ 360 ] ; | *
+: ether [ 720 ] ; | , 
+
+( utils) | *
+: streamer [ 282 ] ; | *
+: loader [ 210 ] ; | , | ,
+
+: selftest ( port) [ 708 ] load ; :var stp [0x3]
+: autotest ( port) [ 712 ] load ;
+
+{block 216}
+792 load
+
+{block 360}
+( polyforth vm) reclaim | ,
+( sram) sram load | ,
+( serial) 38 fh 3 loads reclaim | ,
+( stack) 106 node $39 org 278 load 14 fh 2 loads | ,
+( coprocs) 22 fh 4 loads | ,
+( bitsy) 105 node 18 fh 2 loads | ,
+( coprocs) 30 fh 4 loads | ,
+( flash to sram) 86 fh 2 loads reclaim | ,
+( erase and burn flash) 288 load | ,
+( spi speedup) 290 load | ,
+( serial wires) 102 node $20 org | ,
+: start @ !b start ; 1709 bin | ,
+( ganglia) 44 fh load ( snorkel) 48 fh load | ,
+( spi) 50 fh load
+
+{block 362}
+( - load descriptors)
+: l, dup +node 100 /mod 1 and 2* swap 1 and + 1714 + 
+  push 32 32 pop /part ( warm) $a9 /p ;
+: ganglia nns for i -1 + n-nn l, next ; | ,
+
+( sea of mk1) ganglia | ,
+( snorkel) 207 +node 1605 /ram up /b $37 /p | ,
+( sram) sram 2 + load | ,
+( vm) 2 fh load | ,
+( serial) 4 fh load | ,
+( additional i/o) 6 fh load | ,
+( md5) 792 load | ,
+( clock nodes) exit | ,
+517 +node 517 /ram io /b $200 /p | ,
+516 +node 516 /ram left dup /a /p right /b | ,
+
+{block 790}
+( fir) host | *
+target | cr
+101 node 22 fh load
+102 node 24 fh load
+200 node 30 fh load
+201 node 32 fh load
+301 node 42 fh load
+
+{block 792}
+( - load descriptor)
+: /node ( n) dup +node /ram ; | cr
+101 /node $0 /p
+102 /node $0 /p
+200 /node $12 /p
+201 /node $5 /p
+301 /node $12 /p
+
+{block 812}
+( -) # 101 ( mem 18) 0 org | cr
+0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: main = $0 | cr
+  0 16 b! !b 3 for | cr
+    | cr
+    0 17 b! !b 3 for | cr
+      up b! @b 4 16 b! @b | cr
+      a! 0 17 for +* unext drop drop a 17 b! @b . + b! !b 17 b! @b 1 . + !b next 16 b! @b 1 . + !b next 0 b! @b left b! !b warm = $0 ; | cr
+
+{block 814}
+( -) # 102 ( mem 0) 0 org | cr
+| br
+: main = $0 left b! @b warm = $0 ; | cr
+
+{block 820}
+( -) # 200 ( mem 18) 0 org | cr
+0 , 5 , 8 , 9 , 6 , 4 , 7 , 2 , 7 , 6 , 10 , 4 , 5 , 8 , 9 , 0 , 0 , 0 , | br
+: main = $0 | cr
+  3 for | cr
+    | cr
+    0 16 b! !b 3 for | cr
+      | cr
+      0 17 b! !b 3 for | cr
+        4 17 b! @b | cr
+        a! 0 17 for +* unext drop drop a 16 b! @b . + b! @b right b! !b 17 b! @b 1 . + !b next 16 b! @b 1 . + !b next next warm = $0 ; | cr
+
+{block 822}
+( -) # 201 ( mem 5) 0 org | cr
+0 , 0 , 0 , 0 , 0 , | br
+: main = $0 | cr
+  3 for | cr
+    | cr
+    1 a! 3 for | cr
+      down b! @b !+ next | cr
+    3 for | cr
+      0 0 b! !b | cr
+      1 a! 3 for | cr
+        0 b! @b @+ right b! @b a push | cr
+        a! 0 17 for +* unext drop drop a pop a! . + 0 b! !b next 0 b! @b up b! !b next next warm = $0 ; | cr
+
+{block 832}
+( -) # 301 ( mem 18) 0 org | cr
+0 , 9 , 10 , 10 , 0 , 0 , 4 , 8 , 3 , 1 , 10 , 8 , 3 , 10 , 3 , 9 , 0 , 0 , | br
+: main = $0 | cr
+  0 16 b! !b 3 for | cr
+    | cr
+    0 17 b! !b 3 for | cr
+      4 16 b! @b | cr
+      a! 0 17 for +* unext drop drop a 17 b! @b . + b! @b down b! !b 17 b! @b 1 . + !b next 16 b! @b 1 . + !b next warm = $0 ; | cr
+
