@@ -1,8 +1,6 @@
 {block 200}
 ( user f18 code) reclaim 790 load | br
-
-( softsim example reclaim) # 0 ( node) # 1342 ( load) | cr
-( practical example pwm code reclaim) # 842 ( load)
+( softsim test) 1070 load
 
 {block 202}
 ( ga application tools)
@@ -26,7 +24,7 @@
 : autotest ( port) [ 712 ] load ;
 
 {block 216}
-792 load
+792 load 1072 load
 
 {block 360}
 ( polyforth vm) reclaim | ,
@@ -47,7 +45,7 @@
 {block 362}
 ( - load descriptors)
 : l, dup +node 100 /mod 1 and 2* swap 1 and + 1714 + 
-  push 32 32 pop /part ( warm) $a9 /p ;
+  push 32 32 pop /part ( main) $a9 /p ;
 : ganglia nns for i -1 + n-nn l, next ; | ,
 
 ( sea of mk1) ganglia | ,
@@ -84,6 +82,7 @@ host target | cr
 513 node 886 load
 514 node 888 load
 210 node 832 load
+209 node 1060 load
 
 {block 792}
 : /node dup +node /ram ; | cr
@@ -91,7 +90,7 @@ host target | cr
 11 /node $23 /p
 110 /node up /p
 111 /node $10 /p
-210 /node $0 /p
+210 /node left /p
 211 /node $0 /p
 212 /node left /p
 213 /node $16 /p
@@ -108,6 +107,7 @@ host target | cr
 512 /node $0 /p
 513 /node right /p
 514 /node $10 /p
+209 /node left /b right /a right /p
 
 {block 800}
 ( -) # 10 ( id 0 mem 6) 0 org | cr
@@ -116,7 +116,7 @@ host target | cr
 : swap1 = $0 1rep 0 b! !b 1rep 1 b! !b 0 b! @b 1 b! @b = $0 ; | cr
 : main = $0 | cr
   14 for | cr
-    swap1 5 b! !b 2 b! !b 5 b! @b 3 b! !b 2 b! @b down b! !b 3 b! @b right b! !b next warm = $0 ; | cr
+    swap1 5 b! !b 2 b! !b 5 b! @b 3 b! !b 2 b! @b down b! !b 3 b! @b right b! !b next main = $0 ; | cr
 
 {block 802}
 ( -) # 11 ( id 1 mem 18) 0 org | cr
@@ -126,7 +126,7 @@ host target | cr
 : swap1 = $0 0 a! !+ !+ 2rep and right b! !b 2rep - and right b! !b = $0 ; | cr
 : main = $0 | cr
   0 17 b! !b 14 for | cr
-    3rep @b down b! @b swap1 right b! @b 3rep !b 17 b! @b 1 . + !b next warm = $0 ; | cr
+    3rep @b down b! @b swap1 right b! @b 3rep !b 17 b! @b 1 . + !b next main = $0 ; | cr
 
 {block 816}
 ( -) # 110 ( id 8 mem 18) 0 org | cr
@@ -136,24 +136,24 @@ host target | cr
 : swap1 = $0 0 a! !+ !+ 4rep - and down b! !b 4rep and down b! !b = $0 ; | cr
 : 110main = $0 ( up b! @b 15 -13 . + b! !b ) | cr
   0 17 b! !b 14 for | cr
-    5rep @b right b! @b swap1 down b! @b 5rep !b 17 b! @b 1 . + !b next 15 -13 . + b! @b up b! !b warm = $0 ; | cr
+    5rep @b right b! @b swap1 down b! @b 5rep !b 17 b! @b 1 . + !b next 15 -13 . + b! @b up b! !b = $0 ; | cr
 
 {block 818}
 ( -) # 111 ( id 9 mem 16) 0 org | cr
 47241 , 20197 , 48638 , 43314 , 61303 , 41273 , 21678 , 54386 , 11268 , 5464 , 62318 , 401 , 62508 , 63921 , 39129 , 0 , | br
 : main = $0 | cr
   0 15 b! !b 14 for | cr
-    15 b! @b b! @b right b! !b 15 b! @b b! @b down b! !b 15 b! @b 1 . + !b next warm = $0 ; | cr
+    15 b! @b b! @b right b! !b 15 b! @b b! @b down b! !b 15 b! @b 1 . + !b next main = $0 ; | cr
 
 {block 832}
 ( -) # 210 ( id 16 mem 0) 0 org | cr
 | br
-: main = $0 @p @p @p @p [ 212main 513main 110main  310main ] down b! !b up b! !b down b! !b right b! !b down b! @b up b! @b right b! @b right b! @b warm = $0 ; | cr
+: /start = $0 @p @p @p @p [ 212main 513main 110main  310main ] down b! !b up b! !b down b! !b right b! !b down b! @b up b! @b right b! @b right b! @b left b! !b = $0 ; | cr
 
 {block 834}
 ( -) # 211 ( id 17 mem 0) 0 org | cr
 | br
-: main = $0 right b! @b left b! !b left b! @b right b! !b left b! @b right b! !b warm = $0 ; | cr
+: main = $0 right b! @b left b! !b left b! @b right b! !b left b! @b right b! !b main = $0 ; | cr
 
 {block 836}
 ( -) # 212 ( id 18 mem 18) 0 org | cr
@@ -163,7 +163,7 @@ host target | cr
 : swap3 = $0 0 a! !+ !+ 6rep - and right b! !b 6rep and right b! !b = $0 ; | cr
 : 212main = $0 ( left b! @b 45 -43 . + b! !b ) | cr
   0 17 b! !b 14 for | cr
-    7rep @b down b! @b swap3 right b! @b 7rep !b 17 b! @b 1 . + !b next right b! @b left b! !b 45 -43 . + b! @b left b! !b warm = $0 ; | cr
+    7rep @b down b! @b swap3 right b! @b 7rep !b 17 b! @b 1 . + !b next right b! @b left b! !b 45 -43 . + b! @b left b! !b = $0 ; | cr
 
 {block 838}
 ( -) # 213 ( id 19 mem 6) 0 org | cr
@@ -172,7 +172,7 @@ host target | cr
 : swap3 = $0 8rep 0 b! !b 8rep 1 b! !b 0 b! @b 1 b! @b = $0 ; | cr
 : main = $0 | cr
   14 for | cr
-    swap3 5 b! !b 2 b! !b 5 b! @b 3 b! !b 2 b! @b right b! !b 3 b! @b down b! !b next down b! @b right b! !b warm = $0 ; | cr
+    swap3 5 b! !b 2 b! !b 5 b! @b 3 b! !b 2 b! @b right b! !b 3 b! @b down b! !b next down b! @b right b! !b main = $0 ; | cr
 
 {block 848}
 ( -) # 310 ( id 24 mem 18) 0 org | cr
@@ -182,7 +182,7 @@ host target | cr
 : swap0 = $0 0 a! !+ !+ 9rep - and right b! !b 9rep and right b! !b = $0 ; | cr
 : 310main = $0 ( down b! @b 0 2 . + b! !b ) down b! @b up b! !b | cr
   0 17 b! !b 14 for | cr
-    10rep @b up b! @b swap0 right b! @b 10rep !b 17 b! @b 1 . + !b next 0 2 . + b! @b down b! !b warm = $0 ; | cr
+    10rep @b up b! @b swap0 right b! @b 10rep !b 17 b! @b 1 . + !b next 0 2 . + b! @b down b! !b = $0 ; | cr
 
 {block 850}
 ( -) # 311 ( id 25 mem 6) 0 org | cr
@@ -191,14 +191,14 @@ host target | cr
 : swap0 = $0 11rep 0 b! !b 11rep 1 b! !b 0 b! @b 1 b! @b = $0 ; | cr
 : main = $0 | cr
   14 for | cr
-    swap0 5 b! !b 2 b! !b 5 b! @b 3 b! !b 2 b! @b right b! !b 3 b! @b up b! !b next warm = $0 ; | cr
+    swap0 5 b! !b 2 b! !b 5 b! @b 3 b! !b 2 b! @b right b! !b 3 b! @b up b! !b next main = $0 ; | cr
 
 {block 852}
 ( -) # 312 ( id 26 mem 16) 0 org | cr
 7072 , 46618 , 56764 , 49902 , 27910 , 22584 , 22073 , 8403 , 21894 , 12259 , 738 , 48847 , 46803 , 47958 , 37200 , 0 , | br
 : main = $0 | cr
   0 15 b! !b 14 for | cr
-    15 b! @b b! @b down b! !b 15 b! @b b! @b right b! !b 15 b! @b 1 . + !b next warm = $0 ; | cr
+    15 b! @b b! @b down b! !b 15 b! @b b! @b right b! !b 15 b! @b 1 . + !b next main = $0 ; | cr
 
 {block 854}
 ( -) # 313 ( id 27 mem 18) 0 org | cr
@@ -208,14 +208,14 @@ host target | cr
 : swap3 = $0 0 a! !+ !+ 13rep and down b! !b 13rep - and down b! !b = $0 ; | cr
 : main = $0 | cr
   0 17 b! !b 14 for | cr
-    12rep @b right b! @b swap3 down b! @b 12rep !b 17 b! @b 1 . + !b next up b! @b down b! !b warm = $0 ; | cr
+    12rep @b right b! @b swap3 down b! @b 12rep !b 17 b! @b 1 . + !b next up b! @b down b! !b main = $0 ; | cr
 
 {block 864}
 ( -) # 410 ( id 32 mem 16) 0 org | cr
 36981 , 23549 , 57213 , 53765 , 7848 , 19047 , 13071 , 26345 , 4040 , 52880 , 58560 , 15811 , 7315 , 29863 , 6789 , 0 , | br
 : main = $0  up b! @b down b! !b | cr
   0 15 b! !b 14 for | cr
-    15 b! @b b! @b up b! !b 15 b! @b b! @b right b! !b 15 b! @b 1 . + !b next warm = $0 ; | cr
+    15 b! @b b! @b up b! !b 15 b! @b b! @b right b! !b 15 b! @b 1 . + !b next main = $0 ; | cr
 
 {block 866}
 ( -) # 411 ( id 33 mem 18) 0 org | cr
@@ -225,7 +225,7 @@ host target | cr
 : swap0 = $0 0 a! !+ !+ 15rep and up b! !b 15rep - and up b! !b = $0 ; | cr
 : main = $0 | cr
   0 17 b! !b 14 for | cr
-    14rep @b right b! @b swap0 up b! @b 14rep !b 17 b! @b 1 . + !b next warm = $0 ; | cr
+    14rep @b right b! @b swap0 up b! @b 14rep !b 17 b! @b 1 . + !b next main = $0 ; | cr
 
 {block 870}
 ( -) # 413 ( id 35 mem 6) 0 org | cr
@@ -234,7 +234,7 @@ host target | cr
 : swap2 = $0 16rep 0 b! !b 16rep 1 b! !b 0 b! @b 1 b! @b = $0 ; | cr
 : main = $0 | cr
   14 for | cr
-    swap2 5 b! !b 2 b! !b 5 b! @b 3 b! !b 2 b! @b down b! !b 3 b! @b left b! !b next down b! @b up b! !b warm = $0 ; | cr
+    swap2 5 b! !b 2 b! !b 5 b! @b 3 b! !b 2 b! @b down b! !b 3 b! @b left b! !b next down b! @b up b! !b main = $0 ; | cr
 
 {block 872}
 ( -) # 414 ( id 36 mem 18) 0 org | cr
@@ -244,22 +244,22 @@ host target | cr
 : swap2 = $0 0 a! !+ !+ 18rep and left b! !b 18rep - and left b! !b = $0 ; | cr
 : main = $0 | cr
   0 17 b! !b 14 for | cr
-    17rep @b down b! @b swap2 left b! @b 17rep !b 17 b! @b 1 . + !b next warm = $0 ; | cr
+    17rep @b down b! @b swap2 left b! @b 17rep !b 17 b! @b 1 . + !b next main = $0 ; | cr
 
 {block 880}
 ( -) # 510 ( id 40 mem 0) 0 org | cr
 | br
-: main = $0 down b! @b right b! !b warm = $0 ; | cr
+: main = $0 down b! @b right b! !b main = $0 ; | cr
 
 {block 882}
 ( -) # 511 ( id 41 mem 0) 0 org | cr
 | br
-: main = $0 right b! @b left b! !b warm = $0 ; | cr
+: main = $0 right b! @b left b! !b main = $0 ; | cr
 
 {block 884}
 ( -) # 512 ( id 42 mem 0) 0 org | cr
 | br
-: main = $0 left b! @b right b! !b warm = $0 ; | cr
+: main = $0 left b! @b right b! !b main = $0 ; | cr
 
 {block 886}
 ( -) # 513 ( id 43 mem 18) 0 org | cr
@@ -269,13 +269,26 @@ host target | cr
 : swap2 = $0 0 a! !+ !+ 20rep - and down b! !b 20rep and down b! !b = $0 ; | cr
 : 513main = $0 ( right b! @b 30 -28 . + b! !b ) | cr
   0 17 b! !b 14 for | cr
-    19rep @b left b! @b swap2 down b! @b 19rep !b 17 b! @b 1 . + !b next 30 -28 . + b! @b down b! !b warm = $0 ; | cr
+    19rep @b left b! @b swap2 down b! @b 19rep !b 17 b! @b 1 . + !b next 30 -28 . + b! @b down b! !b = $0 ; | cr
 
 {block 888}
 ( -) # 514 ( id 44 mem 16) 0 org | cr
 20727 , 18596 , 46407 , 6851 , 11532 , 54554 , 32071 , 55132 , 9104 , 6259 , 34373 , 28775 , 8117 , 22558 , 43486 , 0 , | br
 : main = $0 | cr
   0 15 b! !b 14 for | cr
-    15 b! @b b! @b left b! !b 15 b! @b b! @b down b! !b 15 b! @b 1 . + !b next warm = $0 ; | cr
+    15 b! @b b! @b left b! !b 15 b! @b b! @b down b! !b 15 b! @b 1 . + !b next main = $0 ; | cr
+
+{block 1060}
+( snorkel interface 209 )
+0 org | cr
+: start 0 for @p !b [ .. /start .. ] @b next ! ;
+
+{block 1070}
+( softsim  ) 208 node 0 org | cr
+: main = $0 right b! @p [ .. start .. ] !b @b warm = $0 ;
+
+{block 1072}
+( softsim test config) | cr
+208 +node 208 /ram $0 /p
 
 

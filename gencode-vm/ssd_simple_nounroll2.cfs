@@ -1,5 +1,6 @@
 {block 200}
 ( user f18 code) reclaim 790 load | br
+( softsim test) 1070 load
 
 ( softsim example reclaim) # 0 ( node) # 1342 ( load) | cr
 ( practical example pwm code reclaim) # 842 ( load)
@@ -26,7 +27,7 @@
 : autotest ( port) [ 712 ] load ;
 
 {block 216}
-792 load
+792 load 1072 load
 
 {block 360}
 ( polyforth vm) reclaim | ,
@@ -85,6 +86,7 @@ host target | cr
 315 node 858 load
 316 node 860 load
 210 node 832 load
+209 node 1060 load
 
 {block 792}
 : /node dup +node /ram ; | cr
@@ -97,7 +99,7 @@ host target | cr
 114 /node $1 /p
 115 /node $14 /p
 116 /node $16 /p
-210 /node $2 /p
+210 /node left /p
 211 /node $16 /p
 212 /node left /p
 213 /node $1 /p
@@ -110,20 +112,21 @@ host target | cr
 314 /node $14 /p
 315 /node $14 /p
 316 /node $18 /p
+209 /node left /b right /a right /p
 
 {block 806}
 ( -) # 13 ( id 3 mem 20) 0 org | cr
 98 , 5 , 3 , 35 , 38 , 19 , 38 , 89 , 50 , 75 , 53 , 76 , 12 , 28 , 51 , 10 , 45 , 65 , 12 , 82 , | br
 : main = $0 | cr
   0 a! 19 for | cr
-    @+ down b! !b next warm = $0 ; | cr
+    @+ down b! !b next main = $0 ; | cr
 
 {block 808}
 ( -) # 14 ( id 4 mem 20) 0 org | cr
 90 , 47 , 11 , 51 , 25 , 4 , 71 , 5 , 41 , 94 , 10 , 8 , 47 , 10 , 49 , 89 , 5 , 16 , 31 , 21 , | br
 : main = $0 | cr
   0 a! 19 for | cr
-    @+ down b! !b next warm = $0 ; | cr
+    @+ down b! !b next main = $0 ; | cr
 
 {block 816}
 ( -) # 110 ( id 8 mem 3) 0 org | cr
@@ -134,7 +137,7 @@ host target | cr
       2/ unext dup then drop . + 1 b! !b 1 b! @b = $0 ; | cr
 : main = $0 0 2 b! !b | cr
   19 for | cr
-    2 b! @b cadd3 2 b! !b next 2 b! @b up b! !b warm = $0 ; | cr
+    2 b! @b cadd3 2 b! !b next 2 b! @b up b! !b main = $0 ; | cr
 
 {block 818}
 ( -) # 111 ( id 9 mem 4) 0 org | cr
@@ -143,7 +146,7 @@ host target | cr
 : cadd3 = $0 0 a! !+ !+ 1 b! @b 0 b! @b . + 1rep right b! !b 2 b! @b 65535 and 1rep = $0 ; | cr
 : main = $0 0 3 b! !b | cr
   19 for | cr
-    3 b! @b left b! @b cadd3 3 b! !b next 3 b! @b up b! !b warm = $0 ; | cr
+    3 b! @b left b! @b cadd3 3 b! !b next 3 b! @b up b! !b main = $0 ; | cr
 
 {block 820}
 ( -) # 112 ( id 10 mem 20) 0 org | cr
@@ -152,7 +155,7 @@ host target | cr
   0 a! 19 for | cr
     up b! @b right b! !b @+ right b! !b next | cr
   19 for | cr
-    right b! @b left b! !b next warm = $0 ; | cr
+    right b! @b left b! !b next main = $0 ; | cr
 
 {block 822}
 ( -) # 113 ( id 11 mem 1) 0 org | cr
@@ -163,7 +166,7 @@ host target | cr
     2rep 2rep next | cr
   19 for | cr
     down b! @b left b! @b - 1 . + . + 0 b! !b 0 b! @b 0 b! @b | cr
-    a! 0 17 for +* unext drop drop a right b! !b next warm = $0 ; | cr
+    a! 0 17 for +* unext drop drop a right b! !b next main = $0 ; | cr
 
 {block 824}
 ( -) # 114 ( id 12 mem 1) 0 org | cr
@@ -175,7 +178,7 @@ host target | cr
   19 for | cr
     down b! @b up b! !b next | cr
   19 for | cr
-    right b! @b left b! !b next warm = $0 ; | cr
+    right b! @b left b! !b next main = $0 ; | cr
 
 {block 826}
 ( -) # 115 ( id 13 mem 20) 0 org | cr
@@ -186,7 +189,7 @@ host target | cr
   0 a! 19 for | cr
     @+ up b! !b next | cr
   19 for | cr
-    up b! @b right b! !b next warm = $0 ; | cr
+    up b! @b right b! !b next main = $0 ; | cr
 
 {block 828}
 ( -) # 116 ( id 14 mem 4) 0 org | cr
@@ -195,20 +198,20 @@ host target | cr
 : cadd0 = $0 0 a! !+ !+ 1 b! @b 0 b! @b . + 3rep up b! !b 2 b! @b 65535 and 3rep = $0 ; | cr
 : main = $0 0 3 b! !b | cr
   19 for | cr
-    3 b! @b left b! @b cadd0 3 b! !b next 3 b! @b up b! !b warm = $0 ; | cr
+    3 b! @b left b! @b cadd0 3 b! !b next 3 b! @b up b! !b main = $0 ; | cr
 
 {block 832}
 ( -) # 210 ( id 16 mem 2) 0 org | cr
 0 , 0 , | br
-: main = $0 @p [ .. start .. ] right b! !b right b! @b right b! @b . + 0 b! !b right b! @b up b! @b . + 1 b! !b  warm = $0 ; | cr
+: /start = $0 @p [ .. start .. ] right b! !b right b! @b right b! @b . + 0 b! !b right b! @b up b! @b . + 1 b! !b  = $0 ; | cr
 
 {block 832}
 ( -) # 210 ( id 16 mem 2) 0 org | cr
 0 , 0 , | br
-: main = $0 @p [ .. start .. ] right b! !b right b! @b right b! @b . + 0 b! !b right b! @b up b! @b . + 1 b! !b 1 b! @b 0 b! @b 16 | cr
+: /start = $0 @p [ .. 212main .. ] right b! !b right b! @b right b! @b . + 0 b! !b right b! @b up b! @b . + 1 b! !b 1 b! @b 0 b! @b 16 | cr
   .. if -1 . + | cr
     for | cr
-      2/ unext dup then drop 3 and . + 1 b! !b 0 b! @b 65535 and 0 b! !b 0 b! @b 1 b! @b warm = $0 ; | cr
+      2/ unext dup then drop 3 and . + 1 b! !b 0 b! @b 65535 and 0 b! !b 0 b! @b left b! !b 1 b! @b warm = $0 ; | cr
 
 {block 834}
 ( -) # 211 ( id 17 mem 4) 0 org | cr
@@ -217,17 +220,17 @@ host target | cr
 : cadd2 = $0 0 a! !+ !+ 1 b! @b 0 b! @b . + 4rep down b! !b 2 b! @b 65535 and 4rep = $0 ; | cr
 : main = $0 right b! @b left b! !b 0 3 b! !b | cr
   19 for | cr
-    3 b! @b left b! @b cadd2 3 b! !b next left b! @b 3 b! @b . + right b! !b up b! @b right b! !b down b! @b right b! !b warm = $0 ; | cr
+    3 b! @b left b! @b cadd2 3 b! !b next left b! @b 3 b! @b . + right b! !b up b! @b right b! !b down b! @b right b! !b main = $0 ; | cr
 
 {block 836}
 ( -) # 212 ( id 18 mem 20) 0 org | cr
 0 , 33 , 57 , 67 , 87 , 33 , 7 , 51 , 32 , 48 , 69 , 23 , 31 , 21 , 63 , 73 , 17 , 71 , 74 , 66 , | br
 : 5rep = $0 right b! @b left b! !b = $0 ; | cr
-: start = $0 | cr
+: 212main = $0 | cr
   0 a! 19 for | cr
     @+ up b! !b next | cr
   19 for | cr
-    5rep next 5rep warm = $0 ; | cr
+    5rep next 5rep = $0 ; | cr
 
 {block 838}
 ( -) # 213 ( id 19 mem 1) 0 org | cr
@@ -237,7 +240,7 @@ host target | cr
     down b! @b left b! !b next | cr
   19 for | cr
     left b! @b left b! @b - 1 . + . + 0 b! !b 0 b! @b 0 b! @b | cr
-    a! 0 17 for +* unext drop drop a right b! !b next left b! @b right b! !b warm = $0 ; | cr
+    a! 0 17 for +* unext drop drop a right b! !b next left b! @b right b! !b main = $0 ; | cr
 
 {block 840}
 ( -) # 214 ( id 20 mem 1) 0 org | cr
@@ -248,7 +251,7 @@ host target | cr
     left b! @b up b! @b - 1 . + . + 0 b! !b 0 b! @b 0 b! @b | cr
     a! 0 17 for +* unext drop drop a right b! !b next | cr
   19 for | cr
-    6rep down b! @b left b! !b next 6rep warm = $0 ; | cr
+    6rep down b! @b left b! !b next 6rep main = $0 ; | cr
 
 {block 842}
 ( -) # 215 ( id 21 mem 20) 0 org | cr
@@ -259,7 +262,7 @@ host target | cr
   19 for | cr
     up b! @b right b! !b next | cr
   0 a! 19 for | cr
-    @+ up b! !b next left b! @b right b! !b warm = $0 ; | cr
+    @+ up b! !b next left b! @b right b! !b main = $0 ; | cr
 
 {block 844}
 ( -) # 216 ( id 22 mem 4) 0 org | cr
@@ -271,7 +274,7 @@ host target | cr
   19 for | cr
     cadd0 next | cr
   19 for | cr
-    3 b! @b left b! @b cadd1 3 b! !b next up b! @b 3 b! @b . + left b! !b warm = $0 ; | cr
+    3 b! @b left b! @b cadd1 3 b! !b next up b! @b 3 b! @b . + left b! !b main = $0 ; | cr
 
 {block 850}
 ( -) # 311 ( id 25 mem 3) 0 org | cr
@@ -282,26 +285,26 @@ host target | cr
       2/ unext dup then drop . + 1 b! !b 1 b! @b = $0 ; | cr
 : main = $0 0 2 b! !b | cr
   19 for | cr
-    2 b! @b cadd2 2 b! !b next left b! @b 2 b! @b . + down b! !b warm = $0 ; | cr
+    2 b! @b cadd2 2 b! !b next left b! @b 2 b! @b . + down b! !b main = $0 ; | cr
 
 {block 852}
 ( -) # 312 ( id 26 mem 0) 0 org | cr
 | br
-: main = $0 right b! @b left b! !b warm = $0 ; | cr
+: main = $0 right b! @b left b! !b main = $0 ; | cr
 
 {block 854}
 ( -) # 313 ( id 27 mem 20) 0 org | cr
 94 , 80 , 23 , 32 , 34 , 17 , 44 , 27 , 38 , 27 , 33 , 30 , 49 , 56 , 76 , 12 , 79 , 97 , 18 , 74 , | br
 : main = $0 | cr
   0 a! 19 for | cr
-    @+ down b! !b next left b! @b right b! !b warm = $0 ; | cr
+    @+ down b! !b next left b! @b right b! !b main = $0 ; | cr
 
 {block 856}
 ( -) # 314 ( id 28 mem 20) 0 org | cr
 41 , 87 , 0 , 85 , 4 , 16 , 73 , 78 , 14 , 92 , 30 , 91 , 91 , 45 , 53 , 93 , 99 , 63 , 18 , 91 , | br
 : main = $0 | cr
   0 a! 19 for | cr
-    @+ down b! !b next right b! @b left b! !b warm = $0 ; | cr
+    @+ down b! !b next right b! @b left b! !b main = $0 ; | cr
 
 {block 858}
 ( -) # 315 ( id 29 mem 3) 0 org | cr
@@ -312,7 +315,7 @@ host target | cr
       2/ unext dup then drop . + 1 b! !b 1 b! @b = $0 ; | cr
 : main = $0 0 2 b! !b | cr
   19 for | cr
-    2 b! @b cadd1 2 b! !b next left b! @b 2 b! @b . + right b! !b warm = $0 ; | cr
+    2 b! @b cadd1 2 b! !b next left b! @b 2 b! @b . + right b! !b main = $0 ; | cr
 
 {block 860}
 ( -) # 316 ( id 30 mem 3) 0 org | cr
@@ -326,5 +329,18 @@ host target | cr
   19 for | cr
     2 b! @b cadd0 2 b! !b next | cr
   19 for | cr
-    cadd1 next 2 b! @b left b! !b warm = $0 ; | cr
+    cadd1 next 2 b! @b left b! !b main = $0 ; | cr
+
+{block 1060}
+( snorkel interface 209 )
+0 org | cr
+: start 9 for @p !b [ .. /start .. ] @b next ! ;
+
+{block 1070}
+( softsim  ) 208 node 0 org | cr
+: main = $0 right b! @p [ .. start .. ] !b @b warm = $0 ;
+
+{block 1072}
+( softsim test config) | cr
+208 +node 208 /ram $0 /p
 
