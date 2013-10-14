@@ -2,7 +2,7 @@ CF2F=./cf2f.py
 F2CF=./f2cf.py
 BACK_CF=./OkadBack.cf
 WORK_CF=./OkadWo2rk.cf
-NEW_CFS=gencode-vm/swap-noopt.cfs
+NEW_CFS=gencode-vm/ssd_simple22-noopt.cfs
 
 all: work.cf
 

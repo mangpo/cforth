@@ -80,7 +80,7 @@ host target | cr
 313 node 854 load
 411 node 866 load
 511 node 882 load
-611 node 898 load
+611 node 884 load
 210 node 832 load
 209 node 1060 load
 
@@ -259,7 +259,7 @@ host target | cr
     @+ up b! @b - 1 . + . + 20 b! !b 20 b! @b 20 b! @b a push | cr
     a! 0 17 for +* unext drop drop a pop a! down b! !b next main = $0 ; | cr
 
-{block 898}
+{block 884}
 ( -) # 611 ( id 49 mem 20) 0 org | cr
 41 , 90 , 50 , 19 , 76 , 48 , 24 , 35 , 26 , 7 , 47 , 59 , 82 , 86 , 18 , 39 , 84 , 45 , 53 , 10 , | br
 : main = $0 | cr
