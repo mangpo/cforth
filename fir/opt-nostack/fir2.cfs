@@ -1,0 +1,93 @@
+{block 200}
+( user f18 code) reclaim 790 load | br
+
+{block 202}
+( ga application tools)
+: a-com [ 1 ] ; | *
+: a-bps 921600 ;
+: c-com [ 3 ] ; | *
+: c-bps 921600 ;
+: host 206 ; | *
+: target 208 ; | , 
+
+( modules) | *
+: sram [ 264 ] ; | *
+: pf [ 360 ] ; | *
+: ether [ 720 ] ; | , 
+
+( utils) | *
+: streamer [ 282 ] ; | *
+: loader [ 210 ] ; | , | ,
+
+: selftest ( port) [ 708 ] load ; :var stp [0x3]
+: autotest ( port) [ 712 ] load ;
+
+{block 216}
+792 load
+
+{block 360}
+( polyforth vm) reclaim | ,
+( sram) sram load | ,
+( serial) 38 fh 3 loads reclaim | ,
+( stack) 106 node $39 org 278 load 14 fh 2 loads | ,
+( coprocs) 22 fh 4 loads | ,
+( bitsy) 105 node 18 fh 2 loads | ,
+( coprocs) 30 fh 4 loads | ,
+( flash to sram) 86 fh 2 loads reclaim | ,
+( erase and burn flash) 288 load | ,
+( spi speedup) 290 load | ,
+( serial wires) 102 node $20 org | ,
+: start @ !b start ; 1709 bin | ,
+( ganglia) 44 fh load ( snorkel) 48 fh load | ,
+( spi) 50 fh load
+
+{block 362}
+( - load descriptors)
+: l, dup +node 100 /mod 1 and 2* swap 1 and + 1714 + 
+  push 32 32 pop /part ( warm) $a9 /p ;
+: ganglia nns for i -1 + n-nn l, next ; | ,
+
+( sea of mk1) ganglia | ,
+( snorkel) 207 +node 1605 /ram up /b $37 /p | ,
+( sram) sram 2 + load | ,
+( vm) 2 fh load | ,
+( serial) 4 fh load | ,
+( additional i/o) 6 fh load | ,
+( md5) 792 load | ,
+( clock nodes) exit | ,
+517 +node 517 /ram io /b $200 /p | ,
+516 +node 516 /ram left dup /a /p right /b | ,
+
+{block 790}
+host target | cr
+110 node 806 load
+111 node 808 load
+210 node 812 load
+
+{block 792}
+: /node dup +node /ram ; | cr
+110 /node $2 /p
+111 /node $25 /p
+210 /node $0 /p
+
+{block 806}
+( -) # 110 ( id 3 mem 2) 0 org | cr
+0 , 0 , | br
+: main = $0 261674 - b! 1 a! @+ !b 325 a! @ !b dup dup or dup b! !b | cr
+  15 for | cr
+    469 b! @b 0 b! @b . + !b next 1 b! @b 1 . + 15 and !b 325 a! over dup or b! @b ! warm = $0 ; | cr
+
+{block 808}
+( -) # 111 ( id 4 mem 5) 0 org | cr
+1 , 16 , 15 , 14 , 13 , 12 , 11 , 10 , 9 , 8 , 7 , 6 , 5 , 4 , 3 , 2 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: 6rep = $0 32 dup b! 2/ @b . + b! = $0 ; | cr
+: main = $0 469 a! @ 32 b! !b @ 6rep !b | cr
+  15 over 2* dup or a! for | cr
+    @+ 6rep @b a push | cr
+    a! dup dup or 17 for +* unext drop drop a 469 b! !b 32 b! @b 1 . + pop a! 15 and 32 b! !b next warm = $0 ; | cr
+
+{block 812}
+( -) # 210 ( id 6 mem 0) 0 org | cr
+| br
+: main = $0 1 325 b! !b @b warm = $0 ; | cr
+

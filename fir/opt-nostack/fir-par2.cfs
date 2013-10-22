@@ -1,0 +1,126 @@
+{block 200}
+( user f18 code) reclaim 790 load | br
+
+{block 202}
+( ga application tools)
+: a-com [ 1 ] ; | *
+: a-bps 921600 ;
+: c-com [ 3 ] ; | *
+: c-bps 921600 ;
+: host 206 ; | *
+: target 208 ; | , 
+
+( modules) | *
+: sram [ 264 ] ; | *
+: pf [ 360 ] ; | *
+: ether [ 720 ] ; | , 
+
+( utils) | *
+: streamer [ 282 ] ; | *
+: loader [ 210 ] ; | , | ,
+
+: selftest ( port) [ 708 ] load ; :var stp [0x3]
+: autotest ( port) [ 712 ] load ;
+
+{block 216}
+792 load
+
+{block 360}
+( polyforth vm) reclaim | ,
+( sram) sram load | ,
+( serial) 38 fh 3 loads reclaim | ,
+( stack) 106 node $39 org 278 load 14 fh 2 loads | ,
+( coprocs) 22 fh 4 loads | ,
+( bitsy) 105 node 18 fh 2 loads | ,
+( coprocs) 30 fh 4 loads | ,
+( flash to sram) 86 fh 2 loads reclaim | ,
+( erase and burn flash) 288 load | ,
+( spi speedup) 290 load | ,
+( serial wires) 102 node $20 org | ,
+: start @ !b start ; 1709 bin | ,
+( ganglia) 44 fh load ( snorkel) 48 fh load | ,
+( spi) 50 fh load
+
+{block 362}
+( - load descriptors)
+: l, dup +node 100 /mod 1 and 2* swap 1 and + 1714 + 
+  push 32 32 pop /part ( warm) $a9 /p ;
+: ganglia nns for i -1 + n-nn l, next ; | ,
+
+( sea of mk1) ganglia | ,
+( snorkel) 207 +node 1605 /ram up /b $37 /p | ,
+( sram) sram 2 + load | ,
+( vm) 2 fh load | ,
+( serial) 4 fh load | ,
+( additional i/o) 6 fh load | ,
+( md5) 792 load | ,
+( clock nodes) exit | ,
+517 +node 517 /ram io /b $200 /p | ,
+516 +node 516 /ram left dup /a /p right /b | ,
+
+{block 790}
+host target | cr
+10 node 800 load
+110 node 806 load
+210 node 812 load
+
+{block 790}
+host target | cr
+12 node 804 load
+112 node 812 load
+210 node 816 load
+211 node 818 load
+212 node 820 load
+
+{block 792}
+: /node dup +node /ram ; | cr
+12 /node $e /p
+112 /node $10 /p
+210 /node $1 /p
+211 /node $10 /p
+212 /node $10 /p
+
+{block 804}
+( -) # 12 ( id 2 mem 6) 0 org | cr
+13 , 16 , 15 , 14 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: 22rep = $0 9 dup b! 2/ @b . + b! = $0 ; | cr
+: main = $0 277 a! @ 9 b! !b @ 22rep !b 8 a! dup dup or ! | cr
+  3 dup 2/ 2/ a! for | cr
+    8 b! @b @+ 22rep @b a push | cr
+    a! 0 17 for +* unext drop drop a . + dup and 8 a! !+ @ 1 pop a! . + 3 and 9 b! !b next 8 b! @b down b! !b warm = $0 ; | cr
+
+{block 812}
+( -) # 112 ( id 6 mem 6) 0 org | cr
+9 , 12 , 11 , 10 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: 24rep = $0 9 a! a 2/ @+ . + b! = $0 ; | cr
+: 23rep = $0 24rep @b = $0 ; | cr
+: main = $0 325 b! @b 9 b! !b @b 277 a! ! 23rep down b! !b up b! @b 24rep !b 8 a! dup dup or ! | cr
+  3 dup 2/ 2/ a! for | cr
+    8 b! @b @+ 23rep a push | cr
+    a! 0 17 for +* unext drop drop a . + dup and 8 a! !+ @ 1 pop a! . + 3 and 9 b! !b next down b! @b 8 b! @b . + up b! !b warm = $0 ; | cr
+
+{block 816}
+( -) # 210 ( id 8 mem 1) 0 org | cr
+0 , | br
+: main = $0 469 dup a! dup or b! @b ! 1 469 b! !b 0 a! @+ a . + 3 469 a! and dup dup or b! !b @ warm = $0 ; | cr
+
+{block 818}
+( -) # 211 ( id 9 mem 6) 0 org | cr
+1 , 4 , 3 , 2 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: 26rep = $0 9 a! a 2/ @+ . + b! = $0 ; | cr
+: 25rep = $0 26rep @b = $0 ; | cr
+: main = $0 469 a! @ 373 9 a! b! dup !b ! 25rep left b! !b right b! @b 26rep !b 8 a! dup dup or ! | cr
+  3 dup 2/ 2/ a! for | cr
+    8 b! @b @+ 25rep a push | cr
+    a! 0 17 for +* unext drop drop a . + dup and 8 a! !+ @ 1 pop a! . + 3 and 9 b! !b next left b! @b 8 b! @b . + right b! !b warm = $0 ; | cr
+
+{block 820}
+( -) # 212 ( id 10 mem 6) 0 org | cr
+5 , 8 , 7 , 6 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: 28rep = $0 9 a! a 2/ @+ . + b! = $0 ; | cr
+: 27rep = $0 28rep @b = $0 ; | cr
+: main = $0 373 a! @ 325 9 a! b! dup !b !+ 27rep up b! !b left b! @b 28rep !b 8 a! dup dup or ! | cr
+  3 dup 2/ 2/ a! for | cr
+    8 b! @b @+ 27rep a push | cr
+    a! 0 17 for +* unext drop drop a . + dup and 8 a! !+ @ 1 pop a! . + 3 and 9 b! !b next up b! @b 8 b! @b . + left b! !b warm = $0 ; | cr
+
