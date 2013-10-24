@@ -60,33 +60,22 @@
 
 {block 790}
 host target | cr
-100 node 928 load
-110 node 806 load
 210 node 812 load
+211 node 814 load
 
 {block 792}
 : /node dup +node /ram ; | cr
-110 /node $0 /p
-210 /node $10 /p
-
-{block 806}
-( -) # 110 ( id 3 mem 19) 0 org | cr
-( counter) | cr
-: main = $0 up b! | cr
-: fir 0 @b 15 $27 push taps = $0 | cr
-[ $2000 , 0 , $4000 , 0 , $8000 , 0 , $8000 , 0 ,
-$10000 , 0 , $10000 , 0 , $1ffff , 0 , $1ffff , 0 ,
-$1ffff , 0 , $1ffff , 0 , $10000 , 0 , $10000 , 0 ,
-$8000 , 0 , $8000 , 0 , $4000 , 0 , $2000 , 0 ,
-] = $0 drop !b fir = $0 ; | cr
+210 /node $0 /p
+211 /node $e /p
 
 {block 812}
 ( -) # 210 ( id 6 mem 0) 0 org | cr
-( one cycle of a sine wave) | cr
-$00000 , $0c3ef , $16a09 , $1d906 , $1ffff , $1d906 , $16a09 , $0c3ef , | cr
-$00000 , $33c11 , $295f7 , $226fa , $20001 , $226fa , $295f7 , $33c11 , | cr
 | br
-: main = $0 
-  up b! 
-  ( 9 for )
-    0 a! 15 for 16 !b @b next ( next ) warm = $0 ; | cr
+: main = $0 575 right b! !b right b! @b warm = $0 ; | cr
+
+{block 814}
+( -) # 211 ( id 7 mem 14) 0 org | cr
+0 , 450 , 900 , 1350 , 1800 , 2250 , 2700 , 3150 , 3600 , 4050 , 0 , 0 , 0 , 0 , | br
+: main = $0 right b! @b 64 push push 0 pop pop - 1 . + --u/mod 13 b! !b 10 b! !b 13 b! @b 11 b! !b 11 b! @b b! @b 11 b! @b 1 . + b! @b 11 b! @b b! @b - 1 . + . + 10 b! @b | cr
+  a! 0 17 for +* unext drop drop a 64 push push 0 pop pop - 1 . + --u/mod push drop pop . + right b! !b warm = $0 ; | cr
+
