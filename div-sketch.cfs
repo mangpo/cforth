@@ -60,18 +60,15 @@
 
 {block 790}
 host target | cr
-210 node 814 load
+210 node 812 load
 
 {block 792}
 : /node dup +node /ram ; | cr
-210 /node $d /p
+210 /node $6 /p
 
-{block 800}
-0 org | cr
-: main 0 10 -3 --u/mod warm ;
-
-{block 814}
+{block 812}
 ( -) # 210 ( id 6 mem 0) 0 org | cr
-0 , 450 , 900 , 1350 , 1800 , 2250 , 2700 , 3150 , 3600 , | cr
-: mv 31 4 interp ;
-: main = $0 64 mv warm ;
+| br
+: div17 = $0 a! 61681 dup dup or 17 for +* unext 2/ 2/ ;
+: main = $0 51 div17 warm ;
+
