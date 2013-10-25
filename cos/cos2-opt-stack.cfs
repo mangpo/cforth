@@ -3,7 +3,7 @@
 
 {block 202}
 ( ga application tools)
-: a-com [ 1 ] ; | *
+: a-com [ 10 ] ; | *
 : a-bps 921600 ;
 : c-com [ 3 ] ; | *
 : c-bps 921600 ;
@@ -60,18 +60,36 @@
 
 {block 790}
 host target | cr
-210 node 814 load
+210 node 812 load
+211 node 814 load
 
 {block 792}
 : /node dup +node /ram ; | cr
-210 /node $d /p
+210 /node $10 /p
+211 /node $d /p
 
-{block 800}
-0 org | cr
-: main 0 10 -3 --u/mod warm ;
+{block 812}
+( -) # 210 ( id 6 mem 0) 0 org | cr
+| br
+0 , $10000 , $8000 , $4000 , $2000 , $1000 , $800 , $400 , 
+$2629 , $446 , $7006 , $5475 , $5272 , $4639 , $986 , $4871 , | cr
+: main = $0 
+  right b! 
+  $3ffff for
+  dup dup or a!
+  16 for 
+    @+ !b @b next next warm = $0 ; | cr
 
 {block 814}
-( -) # 210 ( id 6 mem 0) 0 org | cr
-0 , 450 , 900 , 1350 , 1800 , 2250 , 2700 , 3150 , 3600 , | cr
-: mv 63 5 interp ;
-: main = $0 64 mv warm ;
+( -) # 211 ( id 7 mem 4) 0 org | cr
+0 , -281 , 5203 , -42329 , 37407 , 0 , | br
+: 1if = $0 | cr
+  .. -if drop 65536 . + ; ] then drop 196607 . + - = $0 ; | cr
+: main = $0 over 469 a! dup or @ 2 | cr
+  .. if -1 . + | cr
+    for | cr
+      2* unext dup then drop push drop pop dup 1if dup over *. a a or 5 a! b! !b dup or !+ | cr
+  3 dup 2/ a! for | cr
+    a push 5 b! @b dup dup or b! @b *. pop a! 5 b! @+ . + !b b! next 5 b! @b over *. push a! dup 469 a! pop . + ! main = $0 ; | cr
+
+

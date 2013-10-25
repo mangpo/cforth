@@ -3,7 +3,7 @@
 
 {block 202}
 ( ga application tools)
-: a-com [ 1 ] ; | *
+: a-com [ 10 ] ; | *
 : a-bps 921600 ;
 : c-com [ 3 ] ; | *
 : c-bps 921600 ;
@@ -57,6 +57,7 @@
 ( clock nodes) exit | ,
 517 +node 517 /ram io /b $200 /p | ,
 516 +node 516 /ram left dup /a /p right /b | ,
+
 {block 790}
 host target | cr
 210 node 812 load
@@ -64,19 +65,22 @@ host target | cr
 
 {block 792}
 : /node dup +node /ram ; | cr
-210 /node $0 /p
+210 /node $10 /p
 211 /node $b /p
 
 {block 812}
 ( -) # 210 ( id 6 mem 0) 0 org | cr
-| br
-: main = $0 16 right b! !b @b warm = $0 ; | cr
+0 , 64 , 128 , 192 , 256 , 320 , 384 , 448 , 
+512 , 148 , 312 , 68 , 38 , 378 , 369 , 91 , | cr
+: main = $0 
+  right b! 
+  $3ffff for
+  dup dup or a!
+  16 for 
+    @+ !b @b next next warm = $0 ; | cr
 
 {block 814}
-( -) # 211 ( id 7 mem 11) 0 org | cr
+( -) # 211 ( id 7 mem 4) 0 org | cr
 0 , 450 , 900 , 1350 , 1800 , 2250 , 2700 , 3150 , 3600 , 0 , 0 , | br
-: main = $0 0 right b! @b push drop pop dup 63 and 10 b! !b dup 2/ 2/ 2/ 2/ 2/ 2/ 9 b! !b 9 b! @b b! @b 9 b! @b 1 . + b! @b 9 b! @b b! @b - 1 . + . + 10 b! @b | cr
-  a! 0 17 for +* unext drop drop a . + 2/ 2/ 2/ 2/ 2/ 2/ right b! !b warm = $0 ; | cr
-
-
-
+: main = $0 10 a! 469 b! @b dup 63 and ! dup 2/ 2/ 2/ 2/ 2/ 9 a! 2/ !+ 9 b! @b a! @+ @ 9 a! @+ b! - @b . + - @ | cr
+  a! 0 17 for +* unext drop drop a 2/ 2/ 2/ 2/ 2/ 2/ 469 a! . + ! main = $0 ; | cr

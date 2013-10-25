@@ -3,7 +3,7 @@
 
 {block 202}
 ( ga application tools)
-: a-com [ 1 ] ; | *
+: a-com [ 10 ] ; | *
 : a-bps 921600 ;
 : c-com [ 3 ] ; | *
 : c-bps 921600 ;
@@ -65,16 +65,23 @@ host target | cr
 
 {block 792}
 : /node dup +node /ram ; | cr
-210 /node $0 /p
+210 /node $10 /p
 211 /node $0 /p
 
 {block 812}
 ( -) # 210 ( id 6 mem 0) 0 org | cr
 | br
-: main = $0 2 right b! !b @b warm = $0 ; | cr
+0 , $10000 , $8000 , $4000 , $2000 , $1000 , $800 , $400 , 
+$32629 , $446 , $37006 , $5475 , $35272 , $4639 , $986 , $34871 , | cr
+: main = $0 
+  right b! 
+  $3ffff for
+  dup dup or a!
+  16 for 
+    @+ !b @b next next warm = $0 ; | cr
 
 {block 814}
 ( -) # 211 ( id 7 mem 17) 0 org | cr
 | br
-: main = $0 right b! @b 6 poly [ -1 , 6 , -7 , -6 , 7 , -2 , 4 , 8 , ] !b drop warm ;
+: main = $0 right b! @b 6 poly [ 31 , -46 , 54 , -72 , -51 , -46 , -67 , 69 , ] !b  main ;
 

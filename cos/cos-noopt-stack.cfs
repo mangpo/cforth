@@ -60,24 +60,38 @@
 
 {block 790}
 host target | cr
+10 node 800 load
+110 node 806 load
 210 node 812 load
-211 node 814 load
 
 {block 792}
 : /node dup +node /ram ; | cr
+10 /node $1c /p
+110 /node $f /p
 210 /node $0 /p
-211 /node $9 /p
+
+{block 800}
+( -) # 10 ( id 0 mem 6) 0 org | cr
+0 , 2730 , 0 , -32768 , 0 , 65536 , | br
+: 1rep = $0 down b! @b - 1 . + . + = $0 ; | cr
+: 1if = $0 | cr
+  .. -if drop 32768 1rep 0 b! !b ; ] then drop down b! @b 0 b! !b = $0 ; | cr
+: 2if = $0 | cr
+  .. -if drop dup - 1 . + push drop pop ; ] then drop = $0 ; | cr
+: main = $0 0 down b! @b 1if 0 b! @b 2* 2* 102943 *. push drop pop 0 b! !b 0 push drop pop | cr
+  1 a! 4 for | cr
+    dup 0 b! @b a push *. push drop pop pop a! @+ . + push drop pop next 16384 1rep 2if dup down b! !b warm = $0 ; | cr
+
+{block 806}
+( -) # 110 ( id 3 mem 0) 0 org | cr
+| br
+: 1if = $0 | cr
+  .. -if drop 65536 over - 1 . + . + push drop pop ; ] then drop = $0 ; | cr
+: 2if = $0 | cr
+  .. -if drop dup down b! !b ; ] then drop dup down b! !b = $0 ; | cr
+: main = $0 0 up b! @b push drop pop 32768 over - 1 . + . + 1if 16384 over - 1 . + . + dup down b! !b 2if dup down b! !b down b! @b up b! !b warm = $0 ; | cr
 
 {block 812}
 ( -) # 210 ( id 6 mem 0) 0 org | cr
 | br
-: main = $0 -2 right b! !b @b warm = $0 ; | cr
-
-{block 814}
-( -) # 211 ( id 7 mem 9) 0 org | cr
--1 , 6 , -7 , -6 , 7 , -2 , 4 , 8 , 0 , | br
-: main = $0 0 right b! @b 8 b! !b 0 push drop pop | cr
-  0 a! 7 for | cr
-    dup 8 b! @b a push | cr
-    a! 0 17 for +* unext drop drop a pop a! @+ . + push drop pop next dup right b! !b warm = $0 ; | cr
-
+: main = $0 0 up b! !b up b! @b warm = $0 ; | cr

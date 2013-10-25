@@ -66,16 +66,16 @@ host target | cr
 {block 792}
 : /node dup +node /ram ; | cr
 210 /node $0 /p
-211 /node $e /p
+211 /node $b /p
 
 {block 812}
 ( -) # 210 ( id 6 mem 0) 0 org | cr
 | br
-: main = $0 575 right b! !b right b! @b warm = $0 ; | cr
+: main = $0 16 right b! !b @b warm = $0 ; | cr
 
 {block 814}
-( -) # 211 ( id 7 mem 14) 0 org | cr
-0 , 450 , 900 , 1350 , 1800 , 2250 , 2700 , 3150 , 3600 , 4050 , 0 , 0 , 0 , 0 , | br
-: main = $0 right b! @b 64 push push 0 pop pop - 1 . + --u/mod 13 b! !b 10 b! !b 13 b! @b 11 b! !b 11 b! @b b! @b 11 b! @b 1 . + b! @b 11 b! @b b! @b - 1 . + . + 10 b! @b | cr
-  a! 0 17 for +* unext drop drop a 64 push push 0 pop pop - 1 . + --u/mod push drop pop . + right b! !b warm = $0 ; | cr
+( -) # 211 ( id 7 mem 4) 0 org | cr
+0 , 450 , 900 , 1350 , 1800 , 2250 , 2700 , 3150 , 3600 , 0 , 0 , | br
+: main = $0 10 a! 469 b! @b dup 63 and ! dup 2/ 2/ 2/ 2/ 2/ 9 a! 2/ !+ 9 b! @b a! @+ @ 9 a! @+ b! - @b . + - @ | cr
+  a! 0 17 for +* unext drop drop a . + 2/ 2/ 2/ 2/ 2/ 469 a! 2/ ! warm = $0 ; | cr
 
