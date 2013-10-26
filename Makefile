@@ -2,7 +2,7 @@ CF2F=./cf2f.py
 F2CF=./f2cf.py
 BACK_CF=./OkadBack.cf
 WORK_CF=./OkadWo2rk.cf
-NEW_CFS=md4-noopt-stack.cfs
+NEW_CFS=fir-par-opt-stack.cfs
 
 all: work.cf
 
