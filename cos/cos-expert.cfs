@@ -1,5 +1,6 @@
 {block 200}
 ( user f18 code) reclaim 790 load | br
+( softsim test) 1070 load
 
 {block 202}
 ( ga application tools)
@@ -23,7 +24,7 @@
 : autotest ( port) [ 712 ] load ;
 
 {block 216}
-792 load
+792 load 1072 load
 
 {block 360}
 ( polyforth vm) reclaim | ,
@@ -63,26 +64,40 @@
 target | cr
 210 node 812 load
 110 node 806 load
+209 node 1060 load
 
 {block 792}
 ( - load descriptor)
 : /node ( n) dup +node /ram ; | cr
-210 /node $10 /p
+210 /node left /p
 110 /node $0 /p
+209 /node left /b right /a right /p
 
 {block 812}
 ( -) # 210 ( id 6 mem 0) 0 org | cr
 | br
 0 , $10000 , $8000 , $4000 , $2000 , $1000 , $800 , $400 , 
 $2629 , $446 , $7006 , $5475 , $5272 , $4639 , $986 , $4871 , | cr
-: main = $0 
+: /start = $0 
   up b! 
-  $3ffff for
   dup dup or a!
-  16 for 
-    @+ !b @b next next warm = $0 ; | cr
+  15 for 
+    @+ !b @b next left b! !b = $0 ; | cr
 
 {block 806}
 ( -) # 110 ( id 3 mem 0) 0 org | cr
 : cos up b! @b 2* 2* . triangle dup *. 2 poly [ -281 , 5203 , -42329 , 37407 , ] push drop pop *. + up b! !b cos ;
+
+{block 1060}
+( snorkel interface 209 )
+0 org | cr
+: start 3 for @p !b [ .. /start .. ] @b next ! ;
+
+{block 1070}
+( softsim  ) 208 node 0 org | cr
+: main = $0 right b! @p [ .. start .. ] !b @b warm = $0 ;
+
+{block 1072}
+( softsim test config) | cr
+208 +node 208 /ram $0 /p
 

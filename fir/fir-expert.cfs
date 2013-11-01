@@ -1,9 +1,10 @@
 {block 200}
 ( user f18 code) reclaim 790 load | br
+( softsim test) 1070 load
 
 {block 202}
 ( ga application tools)
-: a-com [ 1 ] ; | *
+: a-com [ 10 ] ; | *
 : a-bps 921600 ;
 : c-com [ 3 ] ; | *
 : c-bps 921600 ;
@@ -23,7 +24,7 @@
 : autotest ( port) [ 712 ] load ;
 
 {block 216}
-792 load
+792 load 1072 load
 
 {block 360}
 ( polyforth vm) reclaim | ,
@@ -60,14 +61,15 @@
 
 {block 790}
 host target | cr
-100 node 928 load
 110 node 806 load
 210 node 812 load
+209 node 1060 load
 
 {block 792}
 : /node dup +node /ram ; | cr
 110 /node $0 /p
-210 /node $10 /p
+210 /node left /p
+209 /node left /b right /a right /p
 
 {block 806}
 ( -) # 110 ( id 3 mem 19) 0 org | cr
@@ -85,8 +87,20 @@ $8000 , 0 , $8000 , 0 , $4000 , 0 , $2000 , 0 ,
 ( one cycle of a sine wave) | cr
 $00000 , $0c3ef , $16a09 , $1d906 , $1ffff , $1d906 , $16a09 , $0c3ef , | cr
 $00000 , $33c11 , $295f7 , $226fa , $20001 , $226fa , $295f7 , $33c11 , | cr
-| br
-: main = $0 
+: /start = $0 
   up b! 
-  ( 9 for )
-    0 a! 15 for 16 !b @b next ( next ) warm = $0 ; | cr
+  0 a! 15 for @+ !b @b next left b! !b = $0 ; | cr
+
+{block 1060}
+( snorkel interface 209 )
+0 org | cr
+: start 3 for @p !b [ .. /start .. ] @b next ! ;
+
+{block 1070}
+( softsim  ) 208 node 0 org | cr
+: main = $0 right b! @p [ .. start .. ] !b @b warm = $0 ;
+
+{block 1072}
+( softsim test config) | cr
+208 +node 208 /ram $0 /p
+

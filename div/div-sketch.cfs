@@ -1,9 +1,10 @@
 {block 200}
 ( user f18 code) reclaim 790 load | br
+( softsim test) 1070 load
 
 {block 202}
 ( ga application tools)
-: a-com [ 1 ] ; | *
+: a-com [ 10 ] ; | *
 : a-bps 921600 ;
 : c-com [ 3 ] ; | *
 : c-bps 921600 ;
@@ -23,7 +24,7 @@
 : autotest ( port) [ 712 ] load ;
 
 {block 216}
-792 load
+792 load 1072 load
 
 {block 360}
 ( polyforth vm) reclaim | ,
@@ -61,14 +62,34 @@
 {block 790}
 host target | cr
 210 node 812 load
+209 node 1060 load
 
 {block 792}
 : /node dup +node /ram ; | cr
-210 /node $5 /p
+210 /node left /p
+209 /node left /b right /a right /p
 
 {block 812}
 ( -) # 210 ( id 6 mem 0) 0 org | cr
-| br
-: div17 = $0 push 0 pop -17 --u/mod push drop pop = $0 ; | cr
-: main = $0 50 div17 warm ;
+0 , $10000 , $8000 , $4000 , $2000 , $1000 , $800 , $400 , 
+$2629 , $446 , $7006 , $5475 , $5272 , $4639 , $986 , $4871 , | cr
+: div17 = $0 a! 61681 dup dup or 17 for +* unext 2/ 2/ ;
+: /start
+  dup dup or a!
+  15 for 
+    @+ a push div17 pop a! next left b! !b ;
+
+{block 1060}
+( snorkel interface 209 )
+0 org | cr
+: start 3 for @p !b [ .. /start .. ] @b next ! ;
+
+{block 1070}
+( softsim  ) 208 node 0 org | cr
+: main = $0 right b! @p [ .. start .. ] !b @b warm = $0 ;
+
+{block 1072}
+( softsim test config) | cr
+208 +node 208 /ram $0 /p
+
 
