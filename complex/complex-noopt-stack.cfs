@@ -87,7 +87,7 @@ host target | cr
 
 {block 800}
 ( -) # 10 ( id 0 mem 5) 0 org | cr
-0 , -281 , 5203 , -42329 , 37407 , | br
+0 , 261863 , 5203 , 219815 , 37407 , | br
 : cosine = $0 0 down b! @b 0 b! !b 0 push drop pop | cr
   1 a! 3 for | cr
     dup 0 b! @b a push *. push drop pop pop a! @+ . + push drop pop next dup down b! !b drop = $0 ; | cr

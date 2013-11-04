@@ -226,7 +226,7 @@ $2629 , $446 , $7006 , $5475 , $5272 , $4639 , $986 , $4871 , | cr
 
 {block 842}
 ( -) # 411 ( id 21 mem 4) 0 org | cr
-281 , 5203 , 42329 , 37407 , | br 
+261863 , 5203 , 219815 , 37407 , | br 
 : cosine = $0 0 up b! @b push drop pop | cr
   0 a! 3 for | cr
     dup left b! !b @+ left b! !b ( stuck ) next left b! @b up b! @b *. push drop pop up b! !b drop = $0 ; | cr
