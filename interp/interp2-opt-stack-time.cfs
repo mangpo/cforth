@@ -45,7 +45,7 @@
 {block 362}
 ( - load descriptors)
 : l, dup +node 100 /mod 1 and 2* swap 1 and + 1714 + 
-  push 32 32 pop /part ( main) $a9 /p ;
+  push 32 32 pop /part ( warm) $a9 /p ;
 : ganglia nns for i -1 + n-nn l, next ; | ,
 
 ( sea of mk1) ganglia | ,
@@ -61,64 +61,32 @@
 
 {block 790}
 host target | cr
-110 node 808 load
-111 node 810 load
-112 node 812 load
-210 node 816 load
+210 node 812 load
+211 node 814 load
 209 node 1060 load
 
 {block 792}
 : /node dup +node /ram ; | cr
-110 /node $18 /p
-111 /node $19 /p
-112 /node $2 /p
 210 /node left /p
+211 /node $b /p
 209 /node left /b right /a right /p
 
-{block 808}
-( -) # 110 ( id 4 mem 3) 0 org | cr
-0 , 0 , 0 , | br
-: 1if = $0 | cr
-  .. -if drop ; ] then drop dup 1 b! !b = $0 ; | cr
-: 2if = $0 | cr
-  .. if drop ; ] then drop dup dup or b! @b right b! @b - 1 . + . + 1if = $0 ; | cr
-: 3if = $0 | cr
-  .. -if drop dup 1 b! !b ; ] then drop right b! @b 2if = $0 ; | cr
-: main = $0 dup dup or dup 1 b! !b 32768 2 b! !b up b! @b right b! !b up b! @b dup dup or b! !b | cr
-  15 for | cr
-    1 b! @b 2 b! @b over - and . + push drop pop dup right b! !b dup right b! !b right b! @b 3if 2 b! @b 2/ 2 b! !b next 1 b! @b up b! !b main = $0 ; | cr
-
-{block 810}
-( -) # 111 ( id 5 mem 2) 0 org | cr
-0 , 0 , | br
-: 2rep = $0 right b! @b left b! !b = $0 ; | cr
-: 1rep = $0 b! @b - 1 . + . + dup right b! !b = $0 ; | cr
-: 1if = $0 | cr
-  .. if drop ; ] then drop dup right b! !b = $0 ; | cr
-: 2if = $0 | cr
-  .. -if drop ; ] then drop 0 b! @b 1 1rep 1if = $0 ; | cr
-: main = $0 0 right b! @b 0 b! !b | cr
-  15 for | cr
-    2rep 2rep left b! @b 1 b! !b left b! @b push drop pop 1 b! @b 2* 2* over 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 3 and . + 1 b! !b dup 65535 and push drop pop 1 b! @b 0 1rep 2if next main = $0 ; | cr
-
 {block 812}
-( -) # 112 ( id 6 mem 2) 0 org | cr
-0 , 0 , | br
-: main = $0 | cr
-  15 for | cr
-    left b! @b left b! @b a! 0 17 | cr
-    for | cr
-      +* unext push drop pop a 1 b! !b left b! !b 1 b! @b left b! !b next main = $0 ; | cr
-
-{block 816}
-( -) # 210 ( id 8 mem 0) 0 org | cr
-| br
-0 , $10000 , $8000 , $4000 , $2000 , $1000 , $800 , $400 , 
-$2629 , $446 , $7006 , $5475 , $5272 , $4639 , $986 , $4871 , | cr
+( -) # 210 ( id 6 mem 0) 0 org | cr
+0 , 64 , 128 , 192 , 256 , 320 , 384 , 448 , 
+512 , 148 , 312 , 68 , 38 , 378 , 369 , 91 , | cr
 : /start = $0 
+  right b! 
   dup dup or a!
-  7 for 
-  @+ up b! !b @+ up b! !b up b! @b next left b! !b = $0 ; | cr
+  15 for 
+    @+ !b @b next left b! !b = $0 ; | cr
+
+{block 814}
+( -) # 211 ( id 7 mem 4) 0 org | cr
+0 , 450 , 900 , 1350 , 1800 , 2250 , 2700 , 3150 , 3600 , 0 , 0 , | br
+: main = $0 469 a! @ 63 over and 10 b! !b dup 2/ 2/ 2/ 2/ 2/ 2/ 9 b! !b 9 a! @ a! @+ @+ - 9 a! @+ b! @b . + - @ | cr
+  a! dup dup or 17 for +* unext drop drop a 2/ 2/ 2/ 2/ 2/ 2/ 469 b! . + !b main = $0 ; | cr
+
 
 {block 1060}
 ( snorkel interface 209 )
@@ -132,5 +100,3 @@ $2629 , $446 , $7006 , $5475 , $5272 , $4639 , $986 , $4871 , | cr
 {block 1072}
 ( softsim test config) | cr
 208 +node 208 /ram $0 /p
-
-
