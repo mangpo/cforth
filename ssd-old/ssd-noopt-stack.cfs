@@ -1,0 +1,258 @@
+{block 200}
+( user f18 code) reclaim 790 load | br
+( softsim test) 1070 load
+
+{block 202}
+( ga application tools)
+: a-com [ 10 ] ; | *
+: a-bps 921600 ;
+: c-com [ 3 ] ; | *
+: c-bps 921600 ;
+: host 206 ; | *
+: target 208 ; | , 
+
+( modules) | *
+: sram [ 264 ] ; | *
+: pf [ 360 ] ; | *
+: ether [ 720 ] ; | , 
+
+( utils) | *
+: streamer [ 282 ] ; | *
+: loader [ 210 ] ; | , | ,
+
+: selftest ( port) [ 708 ] load ; :var stp [0x3]
+: autotest ( port) [ 712 ] load ;
+
+{block 216}
+792 load 1072 load
+
+{block 360}
+( polyforth vm) reclaim | ,
+( sram) sram load | ,
+( serial) 38 fh 3 loads reclaim | ,
+( stack) 106 node $39 org 278 load 14 fh 2 loads | ,
+( coprocs) 22 fh 4 loads | ,
+( bitsy) 105 node 18 fh 2 loads | ,
+( coprocs) 30 fh 4 loads | ,
+( flash to sram) 86 fh 2 loads reclaim | ,
+( erase and burn flash) 288 load | ,
+( spi speedup) 290 load | ,
+( serial wires) 102 node $20 org | ,
+: start @ !b start ; 1709 bin | ,
+( ganglia) 44 fh load ( snorkel) 48 fh load | ,
+( spi) 50 fh load
+
+{block 362}
+( - load descriptors)
+: l, dup +node 100 /mod 1 and 2* swap 1 and + 1714 + 
+  push 32 32 pop /part ( main) $a9 /p ;
+: ganglia nns for i -1 + n-nn l, next ; | ,
+
+( sea of mk1) ganglia | ,
+( snorkel) 207 +node 1605 /ram up /b $37 /p | ,
+( sram) sram 2 + load | ,
+( vm) 2 fh load | ,
+( serial) 4 fh load | ,
+( additional i/o) 6 fh load | ,
+( md5) 792 load | ,
+( clock nodes) exit | ,
+517 +node 517 /ram io /b $200 /p | ,
+516 +node 516 /ram left dup /a /p right /b | ,
+
+{block 790}
+host target | cr
+11 node 802 load
+111 node 818 load
+211 node 834 load
+212 node 836 load
+213 node 838 load
+214 node 840 load
+310 node 848 load
+311 node 850 load
+312 node 852 load
+313 node 854 load
+314 node 856 load
+410 node 864 load
+411 node 866 load
+510 node 880 load
+511 node 882 load
+610 node 896 load
+210 node 832 load
+209 node 1060 load
+
+{block 792}
+: /node dup +node /ram ; | cr
+11 /node $14 /p
+111 /node $14 /p
+210 /node left /p
+211 /node $11 /p
+212 /node $11 /p
+213 /node right /p
+214 /node $14 /p
+310 /node $11 /p
+311 /node $11 /p
+312 /node $11 /p
+313 /node $11 /p
+314 /node $11 /p
+410 /node $11 /p
+411 /node $14 /p
+510 /node $14 /p
+511 /node $14 /p
+610 /node $14 /p
+209 /node left /b right /a right /p
+
+{block 802}
+( -) # 11 ( id 1 mem 20) 0 org | cr
+41 , 87 , 0 , 85 , 4 , 16 , 73 , 78 , 14 , 92 , 30 , 91 , 91 , 45 , 53 , 93 , 99 , 63 , 18 , 91 , | br
+: main = $0 | cr
+  0 a! 19 for | cr
+    @+ down b! !b next main = $0 ; | cr
+
+{block 818}
+( -) # 111 ( id 9 mem 20) 0 org | cr
+30 , 3 , 2 , 93 , 3 , 51 , 30 , 78 , 81 , 49 , 38 , 29 , 39 , 12 , 64 , 0 , 24 , 14 , 97 , 94 , | br
+: main = $0 0 | cr
+  0 a! 19 for | cr
+    @+ down b! @b - 1 . + . + push drop pop dup over a push | cr
+    a! dup dup or 17 for +* unext drop drop a pop a! up b! !b next main = $0 ; | cr
+
+{block 832}
+( -) # 210 ( id 16 mem 1) 0 org | cr
+0 , | br
+: /start = $0 right b! @p [ .. 213main .. ] !b right b! @b down b! @b . + push drop pop right b! @b down b! @b . + 0 b! !b 0 b! @b over 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 3 and . + 0 b! !b dup 65535 and push drop pop dup left b! !b 0 b! @b = $0 ; | cr
+
+{block 834}
+( -) # 211 ( id 17 mem 2) 0 org | cr
+0 , 0 , | br
+: cadd2 = $0 0 a! !+ !+ 0 1 b! @b 0 b! @b . + push drop pop dup left b! !b dup 65535 and push drop pop dup push drop pop = $0 ; | cr
+: main = $0 0 right b! @b left b! !b 0 push drop pop | cr
+  19 for | cr
+    dup up b! @b cadd2 push drop pop next down b! @b over . + right b! !b left b! @b right b! !b main = $0 ; | cr
+
+{block 836}
+( -) # 212 ( id 18 mem 1) 0 org | cr
+0 , | br
+: cadd2 = $0 0 a! !+ 0 0 b! @b left b! @b 16 | cr
+  .. if -1 . + | cr
+    for | cr
+      2/ unext dup then drop . + push drop pop dup push drop pop = $0 ; | cr
+: main = $0 0 left b! @b right b! !b 0 push drop pop | cr
+  19 for | cr
+    dup cadd2 push drop pop next down b! @b over . + left b! !b main = $0 ; | cr
+
+{block 838}
+( -) # 213 ( id 19 mem 20) 0 org | cr
+0 , 33 , 57 , 67 , 87 , 33 , 7 , 51 , 32 , 48 , 69 , 23 , 31 , 21 , 63 , 73 , 17 , 71 , 74 , 66 , | br
+: 213main = $0 | cr
+  0 a! 19 for | cr
+    @+ left b! @b - 1 . + . + push drop pop dup over a push | cr
+    a! dup dup or 17 for +* unext drop drop a pop a! down b! !b next = $0 ; | cr
+
+{block 840}
+( -) # 214 ( id 20 mem 20) 0 org | cr
+14 , 50 , 95 , 67 , 54 , 81 , 93 , 74 , 83 , 19 , 71 , 69 , 65 , 55 , 38 , 62 , 10 , 67 , 49 , 20 , | br
+: main = $0 | cr
+  0 a! 19 for | cr
+    @+ left b! !b next main = $0 ; | cr
+
+{block 848}
+( -) # 310 ( id 24 mem 1) 0 org | cr
+0 , | br
+: cadd3 = $0 0 a! !+ 0 0 b! @b up b! @b 16 | cr
+  .. if -1 . + | cr
+    for | cr
+      2/ unext dup then drop . + push drop pop dup push drop pop = $0 ; | cr
+: main = $0 0 0 push drop pop | cr
+  19 for | cr
+    dup cadd3 push drop pop next up b! @b down b! !b dup down b! !b main = $0 ; | cr
+
+{block 850}
+( -) # 311 ( id 25 mem 2) 0 org | cr
+0 , 0 , | br
+: cadd1 = $0 0 a! !+ !+ 0 1 b! @b 0 b! @b . + push drop pop dup left b! !b dup 65535 and push drop pop dup push drop pop = $0 ; | cr
+: main = $0 0 0 push drop pop | cr
+  19 for | cr
+    dup up b! @b cadd1 push drop pop next left b! @b over . + down b! !b main = $0 ; | cr
+
+{block 852}
+( -) # 312 ( id 26 mem 1) 0 org | cr
+0 , | br
+: cadd1 = $0 0 a! !+ 0 0 b! @b left b! @b 16 | cr
+  .. if -1 . + | cr
+    for | cr
+      2/ unext dup then drop . + push drop pop dup push drop pop = $0 ; | cr
+: main = $0 0 0 push drop pop | cr
+  19 for | cr
+    dup cadd1 push drop pop next right b! @b left b! !b right b! @b over . + down b! !b main = $0 ; | cr
+
+{block 854}
+( -) # 313 ( id 27 mem 2) 0 org | cr
+0 , 0 , | br
+: cadd0 = $0 0 a! !+ !+ 0 1 b! @b 0 b! @b . + push drop pop dup left b! !b dup 65535 and push drop pop dup push drop pop = $0 ; | cr
+: main = $0 0 0 push drop pop | cr
+  19 for | cr
+    dup down b! @b cadd0 push drop pop next dup right b! !b left b! @b right b! !b main = $0 ; | cr
+
+{block 856}
+( -) # 314 ( id 28 mem 1) 0 org | cr
+0 , | br
+: cadd0 = $0 0 a! !+ 0 0 b! @b left b! @b 16 | cr
+  .. if -1 . + | cr
+    for | cr
+      2/ unext dup then drop . + push drop pop dup push drop pop = $0 ; | cr
+: main = $0 0 0 push drop pop | cr
+  19 for | cr
+    dup cadd0 push drop pop next dup left b! !b main = $0 ; | cr
+
+{block 864}
+( -) # 410 ( id 32 mem 2) 0 org | cr
+0 , 0 , | br
+: cadd3 = $0 0 a! !+ !+ 0 1 b! @b 0 b! @b . + push drop pop dup up b! !b dup 65535 and push drop pop dup push drop pop = $0 ; | cr
+: main = $0 0 0 push drop pop | cr
+  19 for | cr
+    dup down b! @b cadd3 push drop pop next dup up b! !b main = $0 ; | cr
+
+{block 866}
+( -) # 411 ( id 33 mem 20) 0 org | cr
+94 , 80 , 23 , 32 , 34 , 17 , 44 , 27 , 38 , 27 , 33 , 30 , 49 , 56 , 76 , 12 , 79 , 97 , 18 , 74 , | br
+: main = $0 0 | cr
+  0 a! 19 for | cr
+    @+ down b! @b - 1 . + . + push drop pop dup over a push | cr
+    a! dup dup or 17 for +* unext drop drop a pop a! up b! !b next main = $0 ; | cr
+
+{block 880}
+( -) # 510 ( id 40 mem 20) 0 org | cr
+98 , 5 , 3 , 35 , 38 , 19 , 38 , 89 , 50 , 75 , 53 , 76 , 12 , 28 , 51 , 10 , 45 , 65 , 12 , 82 , | br
+: main = $0 0 | cr
+  0 a! 19 for | cr
+    @+ up b! @b - 1 . + . + push drop pop dup over a push | cr
+    a! dup dup or 17 for +* unext drop drop a pop a! down b! !b next main = $0 ; | cr
+
+{block 882}
+( -) # 511 ( id 41 mem 20) 0 org | cr
+90 , 47 , 11 , 51 , 25 , 4 , 71 , 5 , 41 , 94 , 10 , 8 , 47 , 10 , 49 , 89 , 5 , 16 , 31 , 21 , | br
+: main = $0 | cr
+  0 a! 19 for | cr
+    @+ down b! !b next main = $0 ; | cr
+
+{block 896}
+( -) # 610 ( id 48 mem 20) 0 org | cr
+41 , 90 , 50 , 19 , 76 , 48 , 24 , 35 , 26 , 7 , 47 , 59 , 82 , 86 , 18 , 39 , 84 , 45 , 53 , 10 , | br
+: main = $0 | cr
+  0 a! 19 for | cr
+    @+ up b! !b next main = $0 ; | cr
+
+{block 1060}
+( snorkel interface 209 )
+0 org | cr
+: start 9 for @p !b [ .. /start .. ] @b next ! ;
+
+{block 1070}
+( softsim  ) 208 node 0 org | cr
+: main = $0 right b! @p [ .. start .. ] !b @b warm = $0 ;
+
+{block 1072}
+( softsim test config) | cr
+208 +node 208 /ram $0 /p
+
+
