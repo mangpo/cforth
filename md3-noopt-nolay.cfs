@@ -1,0 +1,596 @@
+{block 200}
+( user f18 code) reclaim 790 load | br
+( softsim test) 1070 load
+
+{block 202}
+( ga application tools)
+: a-com [ 1 ] ; | *
+: a-bps 921600 ;
+: c-com [ 3 ] ; | *
+: c-bps 921600 ;
+: host 206 ; | *
+: target 208 ; | , 
+
+( modules) | *
+: sram [ 264 ] ; | *
+: pf [ 360 ] ; | *
+: ether [ 720 ] ; | , 
+
+( utils) | *
+: streamer [ 282 ] ; | *
+: loader [ 210 ] ; | , | ,
+
+: selftest ( port) [ 708 ] load ; :var stp [0x3]
+: autotest ( port) [ 712 ] load ;
+
+{block 216}
+792 load 1072 load
+
+{block 360}
+( polyforth vm) reclaim | ,
+( sram) sram load | ,
+( serial) 38 fh 3 loads reclaim | ,
+( stack) 106 node $39 org 278 load 14 fh 2 loads | ,
+( coprocs) 22 fh 4 loads | ,
+( bitsy) 105 node 18 fh 2 loads | ,
+( coprocs) 30 fh 4 loads | ,
+( flash to sram) 86 fh 2 loads reclaim | ,
+( erase and burn flash) 288 load | ,
+( spi speedup) 290 load | ,
+( serial wires) 102 node $20 org | ,
+: start @ !b start ; 1709 bin | ,
+( ganglia) 44 fh load ( snorkel) 48 fh load | ,
+( spi) 50 fh load
+
+{block 362}
+( - load descriptors)
+: l, dup +node 100 /mod 1 and 2* swap 1 and + 1714 + 
+  push 32 32 pop /part ( main) $a9 /p ;
+: ganglia nns for i -1 + n-nn l, next ; | ,
+
+( sea of mk1) ganglia | ,
+( snorkel) 207 +node 1605 /ram up /b $37 /p | ,
+( sram) sram 2 + load | ,
+( vm) 2 fh load | ,
+( serial) 4 fh load | ,
+( additional i/o) 6 fh load | ,
+( md5) 792 load | ,
+( clock nodes) exit | ,
+517 +node 517 /ram io /b $200 /p | ,
+516 +node 516 /ram left dup /a /p right /b | ,
+
+{block 790}
+host target | cr
+113 node 822 load
+211 node 834 load
+213 node 838 load
+214 node 840 load
+217 node 846 load
+310 node 848 load
+311 node 850 load
+312 node 852 load
+313 node 854 load
+314 node 856 load
+315 node 858 load
+317 node 862 load
+410 node 864 load
+411 node 866 load
+412 node 868 load
+413 node 870 load
+414 node 872 load
+415 node 874 load
+416 node 876 load
+417 node 878 load
+510 node 880 load
+511 node 882 load
+512 node 884 load
+513 node 886 load
+514 node 888 load
+515 node 890 load
+610 node 896 load
+611 node 898 load
+612 node 900 load
+613 node 902 load
+614 node 904 load
+615 node 906 load
+710 node 912 load
+713 node 918 load
+714 node 920 load
+
+309 node 1052 load
+210 node 1054 load
+209 node 1050 load
+109 node 1056 load
+108 node 1058 load
+208 node 1060 load
+
+{block 792}
+: /node dup +node /ram ; | cr
+113 /node $20 /p
+210 /node left /p
+211 /node right /p
+213 /node $27 /p
+214 /node $2 /p
+217 /node $20 /p
+310 /node left /p
+311 /node $30 /p
+312 /node $31 /p
+313 /node $2f /p
+314 /node $d /p
+315 /node $4 /p
+317 /node $23 /p
+410 /node $27 /p
+411 /node $39 /p
+412 /node $35 /p
+413 /node $1c /p
+414 /node $15 /p
+415 /node $13 /p
+416 /node $4 /p
+417 /node $4 /p
+510 /node $0 /p
+511 /node $2 /p
+512 /node $11 /p
+513 /node $b /p
+514 /node $4 /p
+515 /node $15 /p
+610 /node $0 /p
+611 /node $4 /p
+612 /node $c /p
+613 /node $17 /p
+614 /node $25 /p
+615 /node $1e /p
+710 /node $20 /p
+713 /node $4 /p
+714 /node $0 /p
+
+309 /node down /p
+209 /node up /p
+109 /node right /p
+108 /node up /p
+208 /node up /b down /a down /p
+
+{block 822}
+( -) # 113 ( id 11 mem 32) 0 org | cr
+65530 , 34673 , 28061 , 64997 , 42174 , 19422 , 63163 , 48831 , 10395 , 60065 , 54511 , 1160 , 55764 , 59099 , 8098 , 50348 , 62505 , 17194 , 43924 , 64659 , 25947 , 36620 , 65519 , 34180 , 28584 , 65068 , 41729 , 19976 , 63315 , 48442 , 10967 , 60294 , | br
+: main = $0 | cr
+  0 a! 31 for | cr
+    @+ up b! !b next main = $0 ; | cr
+
+{block 834}
+( -) # 211 ( id 17 mem 17) 0 org | cr
+32867 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: sumrotate = $0 dup down b! !b drop = $0 ; | cr
+: 1rep = $0 16 b! !b | cr
+  15 for | cr
+    dup b! @b sumrotate dup 16 b! @b . + 15 and push drop pop next = $0 ; | cr
+: 211main = $0 0 | cr
+  0 push drop pop 1 1rep 1 push drop pop 5 1rep 5 push drop pop 3 1rep 0 push drop pop 7 1rep = $0 ; | cr
+
+{block 838}
+( -) # 213 ( id 19 mem 32) 0 org | cr
+55146 , 59591 , 9248 , 49597 , 62844 , 18311 , 43056 , 64838 , 27008 , 35652 , 65535 , 35164 , 27536 , 64920 , 42617 , 18868 , 63006 , 49216 , 9822 , 59830 , 54831 , 580 , 55457 , 59347 , 8673 , 49975 , 62677 , 17754 , 43491 , 64751 , 26479 , 36138 , | br
+: sumrotate = $0 dup down b! !b down b! @b left b! !b drop = $0 ; | cr
+: main = $0 | cr
+  0 a! 31 for | cr
+    @+ a push sumrotate pop a! next | cr
+  31 for | cr
+    up b! @b sumrotate next main = $0 ; | cr
+
+{block 840}
+( -) # 214 ( id 20 mem 0) 0 org | cr
+| br
+: sumrotate = $0 left b! @b = $0 ; | cr
+: main = $0 0 | cr
+  63 for | cr
+    sumrotate push drop pop dup down b! !b next main = $0 ; | cr
+
+{block 846}
+( -) # 217 ( id 23 mem 32) 0 org | cr
+4 , 11 , 16 , 23 , 4 , 11 , 16 , 23 , 4 , 11 , 16 , 23 , 4 , 11 , 16 , 23 , 6 , 10 , 15 , 21 , 6 , 10 , 15 , 21 , 6 , 10 , 15 , 21 , 6 , 10 , 15 , 21 , | br
+: main = $0 | cr
+  0 a! 31 for | cr
+    @+ down b! !b next main = $0 ; | cr
+
+{block 848}
+( -) # 310 ( id 24 mem 17) 0 org | cr
+25185 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 24 , 0 , 0 , | br
+: sumrotate = $0 dup up b! !b drop = $0 ; | cr
+: 2rep = $0 16 b! !b | cr
+  15 for | cr
+    dup b! @b sumrotate dup 16 b! @b . + 15 and push drop pop next = $0 ; | cr
+: 310main = $0 0 | cr
+  0 push drop pop 1 2rep 1 push drop pop 5 2rep 5 push drop pop 3 2rep 0 push drop pop 7 2rep = $0 ; | cr
+
+{block 850}
+( -) # 311 ( id 25 mem 2) 0 org | cr
+0 , 0 , | br
+: 4rep = $0 b! !b up b! @b left b! !b = $0 ; | cr
+: 3rep = $0 16 0 b! @b - 1 . + . + | cr
+  .. if -1 . + | cr
+    for | cr
+      2/ unext dup then drop left b! !b = $0 ; | cr
+: leftrotate = $0 0 up b! @b 1 b! !b up b! @b push drop pop up b! @b 0 4rep up b! @b left 4rep dup 3rep 1 b! @b 3rep drop = $0 ; | cr
+: sumrotate = $0 down b! @b left b! !b leftrotate = $0 ; | cr
+: main = $0 | cr
+  63 for | cr
+    sumrotate next main = $0 ; | cr
+
+{block 852}
+( -) # 312 ( id 26 mem 2) 0 org | cr
+0 , 0 , | br
+: 5rep = $0 0 b! @b | cr
+  .. if -1 . + | cr
+    for | cr
+      2* unext dup then drop over - and . + 65535 and = $0 ; | cr
+: leftrotate = $0 0 left b! @b 1 b! !b left b! @b push drop pop left b! @b 0 b! !b left b! @b 1 b! @b 5rep up b! !b left b! @b over 5rep right b! !b drop = $0 ; | cr
+: csum = $0 up b! @b right b! !b = $0 ; | cr
+: sumrotate = $0 left b! @b right b! !b csum leftrotate csum = $0 ; | cr
+: main = $0 | cr
+  63 for | cr
+    sumrotate next main = $0 ; | cr
+
+{block 854}
+( -) # 313 ( id 27 mem 3) 0 org | cr
+0 , 0 , 0 , | br
+: leftrotate = $0 0 right b! @b push drop pop dup push drop pop = $0 ; | cr
+: csum = $0 0 a! !+ !+ 0 1 b! @b 0 b! @b . + right b! @b 3 and . + push drop pop dup 65535 and push drop pop dup push drop pop = $0 ; | cr
+: sumrotate = $0 down b! @b up b! !b up b! @b right b! @b csum 2 b! !b left b! @b 2 b! @b up b! !b leftrotate csum down b! !b = $0 ; | cr
+: main = $0 | cr
+  63 for | cr
+    sumrotate next main = $0 ; | cr
+
+{block 856}
+( -) # 314 ( id 28 mem 0) 0 org | cr
+| br
+: sumrotate = $0 dup left b! !b drop = $0 ; | cr
+: 7rep = $0 b! !b dup sumrotate dup up b! !b down b! @b = $0 ; | cr
+: 6rep = $0 dup up 7rep = $0 ; | cr
+: main = $0 0 up b! @b push drop pop | cr
+  15 for | cr
+    dup up b! !b 6rep push drop pop next | cr
+  15 for | cr
+    6rep push drop pop next | cr
+  31 for | cr
+    dup right 7rep push drop pop next dup up b! !b main = $0 ; | cr
+
+{block 858}
+( -) # 315 ( id 29 mem 0) 0 org | cr
+| br
+: 8rep = $0 right b! @b up b! @b = $0 ; | cr
+: main = $0 | cr
+  15 for | cr
+    8rep or up b! @b or up b! !b next | cr
+  15 for | cr
+    up b! @b 8rep 65535 or over - and . + or up b! !b next main = $0 ; | cr
+
+{block 862}
+( -) # 317 ( id 31 mem 32) 0 org | cr
+7 , 12 , 17 , 22 , 7 , 12 , 17 , 22 , 7 , 12 , 17 , 22 , 7 , 12 , 17 , 22 , 5 , 9 , 14 , 20 , 5 , 9 , 14 , 20 , 5 , 9 , 14 , 20 , 5 , 9 , 14 , 20 , | br
+: sumrotate = $0 dup up b! !b drop = $0 ; | cr
+: main = $0 | cr
+  0 a! 31 for | cr
+    @+ a push sumrotate pop a! next | cr
+  31 for | cr
+    down b! @b sumrotate next main = $0 ; | cr
+
+{block 864}
+( -) # 410 ( id 32 mem 32) 0 org | cr
+42104 , 46934 , 28891 , 52974 , 4015 , 50730 , 17939 , 38145 , 39128 , 63407 , 23473 , 55230 , 4386 , 29075 , 17294 , 2081 , 9570 , 45888 , 23121 , 51114 , 4189 , 5203 , 59009 , 64456 , 52710 , 2006 , 3463 , 5357 , 59653 , 41976 , 729 , 19594 , | br
+: sumrotate = $0 dup right b! !b up b! @b right b! !b drop = $0 ; | cr
+: main = $0 | cr
+  0 a! 31 for | cr
+    @+ a push sumrotate pop a! next | cr
+  31 for | cr
+    down b! @b sumrotate next main = $0 ; | cr
+
+{block 866}
+( -) # 411 ( id 33 mem 3) 0 org | cr
+0 , 0 , 0 , | br
+: 10rep = $0 right b! @b left b! !b = $0 ; | cr
+: 9rep = $0 1 b! @b up b! !b 0 b! @b up b! !b dup up b! !b = $0 ; | cr
+: 1if = $0 | cr
+  .. -if drop 1 b! @b 2 b! !b 0 b! @b 1 b! !b 2 b! @b 0 b! !b dup 16 - 1 . + . + push drop pop ; ] then drop = $0 ; | cr
+: leftrotate = $0 0 a! push !+ !+ pop 16 over - 1 . + . + 1if 9rep 9rep drop = $0 ; | cr
+: sumrotate = $0 10rep 10rep left b! @b left b! @b left b! @b leftrotate = $0 ; | cr
+: main = $0 | cr
+  63 for | cr
+    sumrotate next main = $0 ; | cr
+
+{block 868}
+( -) # 412 ( id 34 mem 3) 0 org | cr
+0 , 0 , 0 , | br
+: 12rep = $0 !b right b! @b left b! = $0 ; | cr
+: 11rep = $0 b! 12rep = $0 ; | cr
+: leftrotate = $0 0 up b! @b push drop pop dup push drop pop = $0 ; | cr
+: csum = $0 0 a! !+ !+ 0 1 b! @b 0 b! @b . + push drop pop dup 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ up b! !b dup 65535 and push drop pop dup push drop pop = $0 ; | cr
+: sumrotate = $0 left b! @b right 11rep @b csum 2 b! !b down b! @b 2 b! @b left 11rep 12rep !b leftrotate csum down b! !b = $0 ; | cr
+: main = $0 | cr
+  63 for | cr
+    sumrotate next main = $0 ; | cr
+
+{block 870}
+( -) # 413 ( id 35 mem 1) 0 org | cr
+0 , | br
+: sumrotate = $0 0 a! push !+ pop 0 b! @b down b! @b . + right b! @b . + right b! !b dup left b! @b . + up b! @b . + up b! !b up b! @b right b! !b left b! @b right b! !b drop = $0 ; | cr
+: main = $0 | cr
+  63 for | cr
+    down b! @b left b! @b sumrotate next main = $0 ; | cr
+
+{block 872}
+( -) # 414 ( id 36 mem 0) 0 org | cr
+| br
+: 15rep = $0 right b! @b left b! !b = $0 ; | cr
+: 14rep = $0 b! @b 65535 or right b! @b and over - and . + = $0 ; | cr
+: sumrotate = $0 dup left b! !b 15rep drop = $0 ; | cr
+: 13rep = $0 15rep dup sumrotate up b! @b right b! !b = $0 ; | cr
+: main = $0 0 down b! @b up b! !b down b! @b right b! !b | cr
+  15 for | cr
+    up b! @b right b! @b and up 14rep push drop pop 13rep next | cr
+  15 for | cr
+    right b! @b up b! @b and right 14rep push drop pop 13rep next | cr
+  31 for | cr
+    right b! @b push drop pop 13rep next up b! @b down b! !b main = $0 ; | cr
+
+{block 874}
+( -) # 415 ( id 37 mem 0) 0 org | cr
+| br
+: 18rep = $0 right b! !b down b! @b right b! !b = $0 ; | cr
+: sumrotate = $0 left b! @b right b! !b = $0 ; | cr
+: 17rep = $0 18rep sumrotate dup down b! !b right b! @b = $0 ; | cr
+: 16rep = $0 b! @b 17rep = $0 ; | cr
+: main = $0 0 right b! @b push drop pop | cr
+  15 for | cr
+    dup right b! !b down 16rep push drop pop next | cr
+  15 for | cr
+    down b! @b 18rep dup 17rep push drop pop next | cr
+  31 for | cr
+    dup up b! !b down b! @b up b! !b up 16rep push drop pop next dup down b! !b main = $0 ; | cr
+
+{block 876}
+( -) # 416 ( id 38 mem 0) 0 org | cr
+| br
+: sumrotate = $0 right b! @b left b! !b = $0 ; | cr
+: main = $0 | cr
+  63 for | cr
+    sumrotate next main = $0 ; | cr
+
+{block 878}
+( -) # 417 ( id 39 mem 0) 0 org | cr
+| br
+: sumrotate = $0 up b! @b right b! !b = $0 ; | cr
+: main = $0 | cr
+  63 for | cr
+    sumrotate next main = $0 ; | cr
+
+{block 880}
+( -) # 510 ( id 40 mem 0) 0 org | cr
+| br
+: main = $0 | cr
+  31 for | cr
+    up b! @b down b! !b next main = $0 ; | cr
+
+{block 882}
+( -) # 511 ( id 41 mem 0) 0 org | cr
+| br
+: sumrotate = $0 left b! @b = $0 ; | cr
+: main = $0 0 | cr
+  31 for | cr
+    sumrotate push drop pop dup left b! !b next | cr
+  31 for | cr
+    up b! @b left b! !b sumrotate push drop pop dup left b! !b next main = $0 ; | cr
+
+{block 884}
+( -) # 512 ( id 42 mem 0) 0 org | cr
+| br
+: sumrotate = $0 dup down b! !b down b! @b left b! !b drop = $0 ; | cr
+: 20rep = $0 right b! !b dup sumrotate dup up b! !b left b! @b = $0 ; | cr
+: 19rep = $0 b! @b 20rep = $0 ; | cr
+: main = $0 0 right b! @b push drop pop | cr
+  15 for | cr
+    dup right b! !b up b! @b right b! !b dup 20rep push drop pop next | cr
+  15 for | cr
+    dup right b! !b up 19rep push drop pop next | cr
+  31 for | cr
+    dup up b! !b left 19rep push drop pop next dup up b! !b main = $0 ; | cr
+
+{block 886}
+( -) # 513 ( id 43 mem 0) 0 org | cr
+| br
+: 22rep = $0 b! @b right b! @b and = $0 ; | cr
+: sumrotate = $0 dup down b! !b drop = $0 ; | cr
+: 21rep = $0 up b! @b down b! !b dup sumrotate = $0 ; | cr
+: main = $0 0 up b! @b right b! !b | cr
+  15 for | cr
+    right 22rep right b! @b 65535 or up b! @b and over - and . + push drop pop 21rep next | cr
+  15 for | cr
+    up 22rep up b! @b 65535 or right b! @b and over - and . + push drop pop 21rep next | cr
+  31 for | cr
+    right b! @b push drop pop 21rep next main = $0 ; | cr
+
+{block 888}
+( -) # 514 ( id 44 mem 4) 0 org | cr
+26437 , 61389 , 39098 , 4146 , | br
+: main = $0 0 b! @b right b! !b 1 b! @b down b! !b 2 b! @b down b! !b 3 b! @b right b! !b 0 b! @b up b! !b right b! @b 0 b! !b 1 b! @b up b! !b down b! @b up b! !b right b! @b 1 b! !b 2 b! @b up b! !b right b! @b 2 b! !b 3 b! @b up b! !b right b! @b 3 b! !b main = $0 ; | cr
+
+{block 890}
+( -) # 515 ( id 45 mem 1) 0 org | cr
+0 , | br
+: 26rep = $0 up b! @b right b! !b = $0 ; | cr
+: 25rep = $0 up b! !b 26rep = $0 ; | cr
+: 24rep = $0 b! @b 25rep = $0 ; | cr
+: 23rep = $0 dup down b! !b 0 b! @b down b! !b dup 0 b! !b down b! @b = $0 ; | cr
+: main = $0 0 right b! @b 0 b! !b right b! @b push drop pop | cr
+  15 for | cr
+    23rep push drop pop next | cr
+  15 for | cr
+    dup down b! !b 23rep push drop pop next | cr
+  31 for | cr
+    23rep push drop pop next 0 24rep 26rep down 24rep dup 25rep main = $0 ; | cr
+
+{block 896}
+( -) # 610 ( id 48 mem 0) 0 org | cr
+| br
+: main = $0 | cr
+  31 for | cr
+    down b! @b up b! !b next main = $0 ; | cr
+
+{block 898}
+( -) # 611 ( id 49 mem 0) 0 org | cr
+| br
+: 27rep = $0 left b! @b left b! @b = $0 ; | cr
+: main = $0 | cr
+  15 for | cr
+    27rep or left b! @b or up b! !b next | cr
+  15 for | cr
+    27rep left b! @b 65535 or over - and . + or up b! !b next main = $0 ; | cr
+
+{block 900}
+( -) # 612 ( id 50 mem 0) 0 org | cr
+| br
+: 30rep = $0 b! !b dup right b! !b = $0 ; | cr
+: 29rep = $0 30rep up b! @b = $0 ; | cr
+: 28rep = $0 left b! !b right b! @b left 29rep = $0 ; | cr
+: main = $0 0 right b! @b push drop pop | cr
+  31 for | cr
+    dup up 29rep push drop pop next | cr
+  15 for | cr
+    up b! @b left b! !b dup 28rep push drop pop next | cr
+  15 for | cr
+    dup left b! !b up b! @b 28rep push drop pop next up b! @b right 30rep main = $0 ; | cr
+
+{block 902}
+( -) # 613 ( id 51 mem 1) 0 org | cr
+0 , | br
+: 35rep = $0 down b! @b left b! !b = $0 ; | cr
+: 34rep = $0 b! @b left b! !b 35rep = $0 ; | cr
+: 33rep = $0 34rep right = $0 ; | cr
+: 32rep = $0 b! !b dup dup or b! @b up b! !b dup dup dup or b! !b right b! @b = $0 ; | cr
+: 31rep = $0 dup up 32rep = $0 ; | cr
+: main = $0 dup dup or down a! @ dup dup or b! !b @ up b! !b @ right b! !b @ push drop pop | cr
+  15 for | cr
+    31rep push drop pop next | cr
+  15 for | cr
+    dup up b! !b 31rep push drop pop next | cr
+  31 for | cr
+    dup right 32rep push drop pop next 35rep dup dup or 33rep 33rep 34rep dup left b! !b main = $0 ; | cr
+
+{block 904}
+( -) # 614 ( id 52 mem 2) 0 org | cr
+0 , 0 , | br
+: 38rep = $0 up b! @b right b! !b = $0 ; | cr
+: 37rep = $0 left b! @b 38rep left b! @b = $0 ; | cr
+: cadd = $0 0 a! !+ !+ 0 1 b! @b 0 b! @b . + push drop pop dup 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ 2/ right b! !b dup 65535 and push drop pop dup push drop pop = $0 ; | cr
+: 36rep = $0 37rep cadd down b! !b 37rep = $0 ; | cr
+: main = $0 36rep 38rep cadd down b! !b 36rep cadd down b! !b main = $0 ; | cr
+
+{block 906}
+( -) # 615 ( id 53 mem 2) 0 org | cr
+0 , 0 , | br
+: cadd = $0 0 a! !+ !+ 0 1 b! @b 0 b! @b . + right b! @b 3 and . + push drop pop dup 65535 and push drop pop dup push drop pop = $0 ; | cr
+: 41rep = $0 b! @b cadd up b! !b = $0 ; | cr
+: 40rep = $0 up 41rep = $0 ; | cr
+: 39rep = $0 right b! @b 40rep right b! @b = $0 ; | cr
+: main = $0 39rep right 41rep 39rep 40rep main = $0 ; | cr
+
+{block 912}
+( -) # 710 ( id 56 mem 32) 0 org | cr
+14658 , 63105 , 24866 , 14348 , 59972 , 53161 , 19296 , 48240 , 32454 , 10234 , 12421 , 7429 , 53305 , 39397 , 31992 , 22117 , 8772 , 65431 , 9127 , 41017 , 22979 , 52370 , 62589 , 24017 , 32335 , 59104 , 17172 , 4513 , 32386 , 62005 , 53947 , 54161 , | br
+: main = $0 | cr
+  0 a! 31 for | cr
+    @+ down b! !b next main = $0 ; | cr
+
+{block 918}
+( -) # 713 ( id 59 mem 4) 0 org | cr
+8961 , 43913 , 56574 , 21622 , | br
+: main = $0 0 b! @b down b! !b 1 b! @b down b! !b 2 b! @b down b! !b 3 b! @b down b! !b 0 b! @b down b! !b left b! @b 0 b! !b 1 b! @b down b! !b left b! @b 1 b! !b 2 b! @b down b! !b left b! @b 2 b! !b 3 b! @b down b! !b left b! @b 3 b! !b main = $0 ; | cr
+
+{block 920}
+( -) # 714 ( id 60 mem 0) 0 org | cr
+| br
+: main = $0 down b! @b left b! !b down b! @b left b! !b down b! @b left b! !b down b! @b left b! !b main = $0 ; | cr
+
+{block 1050}
+( -) # 209 0 org | cr
+: half = $5 push up a! @ @ | cr
+  7 for 2* unext or pop a! ! ;
+: middle 
+  down b! @p [ .. lows .. ] !b
+  left b! @p [ .. highs .. ] !b
+  15 for down half left half next ;
+
+{block 1052}
+( -) # 309 0 org | cr
+: code = $0 0 a! 15 for @p !+ unext .. = $0 ; | cr
+: lows = $0 
+  left b! dup dup or a! | cr
+  4 for @+ !b unext a push | cr
+  down a! 
+  15 for @ !b next pop a! | cr
+  .. @p !b = $0 ; .. 310main .. | cr
+
+{block 1054}
+( -) # 210 0 org | cr
+: code = $0 0 a! 15 for @p !+ unext .. = $0 ; | cr
+: highs = $5 
+  right b! dup dup or a! | cr
+  4 for @+ !b unext a push 
+  left a! | cr
+  15 for @ !b unext pop a! | cr
+  .. @p !b = $12 ; .. 211main ..
+
+{block 1056}
+( -) # 109 ( test) 0 org 0 , 0 , 0 , | cr
+: add = $3 @ . + dup $ffff and !+ ; | cr
+: count = $6 1 a! 8 add 2* -if
+  drop 1 add then drop ; | cr
+: get = $f @ -if dup or a! $80 ; ] then
+  a if count then a! ; | cr
+: octets = $16 for get !b next ; | cr
+: ablk = $1a 55 octets
+  a if drop 7 octets ;  ] then drop
+  @+ drop a for
+  @+ dup $ff and !b 7 for 2/ unext
+  $ff and !b next
+  dup dup or a! 3 for @ !b unext warm ; | cr
+: start = $2a up b! right a!
+  begin @p !b [ .. middle .. ] ablk end ; | cr
+
+{block 1058}
+( -) # 108 ( test) 8 org | cr
+: /count = $8 right b! 0 1 ..
+  @p !b !b dup [ .. @p a! @p dup .. ]
+  !b @p !b [ .. !+ !+ .. ] | cr
+: /msg = $10 @p !b [ .. start .. ]
+  up a!
+  begin @ - -while - !b end then - !b ;
+
+{block 1060}
+( - snorkel interface 208) 0 org | cr
+: /md5 @p !b [ .. /count .. ] ! ; | cr
+: swab a push a! $10000 a
+  7 for +* unext pop a! ; | cr
+: md5/ = $9 -1 !b 7 for 0 ! next = $f ; | cr
+: !hi dup 7 for 2/ unext | cr
+: !lo $ff and !b ; | cr
+: md5 @ @ -1 . + -if dup ! ; ] then | cr
+  push 1 and if @ ahead [ swap ] then | cr
+: loop @ !hi zif dup ! ; ] then | cr
+  then !lo zif dup ! ; ] then loop ;
+
+{block 1070}
+( softsim test md5) 308 node 0 org | cr
+0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 ,
+0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 ,
+0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 ,
+0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 ,
+0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 ,
+: start = $20 down b! @p [ .. /md5 .. ] !b @b | cr
+  .. @p !b [ .. md5 .. ] ( adr) 0 !b ( len) 80 !b | cr
+  dup dup or a! 39 for @+ !b unext @b | cr
+  .. @p !b [ .. md5/ .. ]
+  7 for @b unext .. warm = $0 ;
+
+{block 1072}
+( softsim test config) | cr
+308 +node 308 /ram $28 /p
+
