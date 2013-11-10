@@ -220,7 +220,7 @@ host target | cr
 {block 1060}
 ( snorkel interface 209 )
 0 org | cr
-: start 9 for @p !b [ .. /start .. ] @b next ! ;
+: start 3 for @p !b [ .. /start .. ] @b next ! ;
 
 {block 1070}
 ( softsim  ) 208 node 0 org | cr

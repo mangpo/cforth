@@ -86,16 +86,16 @@ host target | cr
 512 node 884 load
 513 node 886 load
 514 node 888 load
-515 node 890 load
-610 node 896 load
-611 node 898 load
-612 node 900 load
-613 node 902 load
-614 node 904 load
-615 node 906 load
-710 node 912 load
-713 node 918 load
-714 node 920 load
+515 node 818 load
+610 node 816 load
+611 node 814 load
+612 node 812 load
+613 node 810 load
+614 node 808 load
+615 node 806 load
+710 node 804 load
+713 node 802 load
+714 node 800 load
 
 309 node 1052 load
 210 node 1054 load
@@ -412,7 +412,7 @@ host target | cr
 26437 , 61389 , 39098 , 4146 , | br
 : main = $0 0 b! @b right b! !b 1 b! @b down b! !b 2 b! @b down b! !b 3 b! @b right b! !b 0 b! @b up b! !b right b! @b 0 b! !b 1 b! @b up b! !b down b! @b up b! !b right b! @b 1 b! !b 2 b! @b up b! !b right b! @b 2 b! !b 3 b! @b up b! !b right b! @b 3 b! !b main = $0 ; | cr
 
-{block 890}
+{block 818}
 ( -) # 515 ( id 45 mem 1) 0 org | cr
 0 , | br
 : 26rep = $0 up b! @b right b! !b = $0 ; | cr
@@ -427,14 +427,14 @@ host target | cr
   31 for | cr
     23rep push drop pop next 0 24rep 26rep down 24rep dup 25rep main = $0 ; | cr
 
-{block 896}
+{block 816}
 ( -) # 610 ( id 48 mem 0) 0 org | cr
 | br
 : main = $0 | cr
   31 for | cr
     down b! @b up b! !b next main = $0 ; | cr
 
-{block 898}
+{block 814}
 ( -) # 611 ( id 49 mem 0) 0 org | cr
 | br
 : 27rep = $0 left b! @b left b! @b = $0 ; | cr
@@ -444,7 +444,7 @@ host target | cr
   15 for | cr
     27rep left b! @b 65535 or over - and . + or up b! !b next main = $0 ; | cr
 
-{block 900}
+{block 812}
 ( -) # 612 ( id 50 mem 0) 0 org | cr
 | br
 : 30rep = $0 b! !b dup right b! !b = $0 ; | cr
@@ -458,7 +458,7 @@ host target | cr
   15 for | cr
     dup left b! !b up b! @b 28rep push drop pop next up b! @b right 30rep main = $0 ; | cr
 
-{block 902}
+{block 810}
 ( -) # 613 ( id 51 mem 1) 0 org | cr
 0 , | br
 : 35rep = $0 down b! @b left b! !b = $0 ; | cr
@@ -474,7 +474,7 @@ host target | cr
   31 for | cr
     dup right 32rep push drop pop next 35rep dup dup or 33rep 33rep 34rep dup left b! !b main = $0 ; | cr
 
-{block 904}
+{block 808}
 ( -) # 614 ( id 52 mem 2) 0 org | cr
 0 , 0 , | br
 : 38rep = $0 up b! @b right b! !b = $0 ; | cr
@@ -483,7 +483,7 @@ host target | cr
 : 36rep = $0 37rep cadd down b! !b 37rep = $0 ; | cr
 : main = $0 36rep 38rep cadd down b! !b 36rep cadd down b! !b main = $0 ; | cr
 
-{block 906}
+{block 806}
 ( -) # 615 ( id 53 mem 2) 0 org | cr
 0 , 0 , | br
 : cadd = $0 0 a! !+ !+ 0 1 b! @b 0 b! @b . + right b! @b 3 and . + push drop pop dup 65535 and push drop pop dup push drop pop = $0 ; | cr
@@ -492,19 +492,19 @@ host target | cr
 : 39rep = $0 right b! @b 40rep right b! @b = $0 ; | cr
 : main = $0 39rep right 41rep 39rep 40rep main = $0 ; | cr
 
-{block 912}
+{block 804}
 ( -) # 710 ( id 56 mem 32) 0 org | cr
 14658 , 63105 , 24866 , 14348 , 59972 , 53161 , 19296 , 48240 , 32454 , 10234 , 12421 , 7429 , 53305 , 39397 , 31992 , 22117 , 8772 , 65431 , 9127 , 41017 , 22979 , 52370 , 62589 , 24017 , 32335 , 59104 , 17172 , 4513 , 32386 , 62005 , 53947 , 54161 , | br
 : main = $0 | cr
   0 a! 31 for | cr
     @+ down b! !b next main = $0 ; | cr
 
-{block 918}
+{block 802}
 ( -) # 713 ( id 59 mem 4) 0 org | cr
 8961 , 43913 , 56574 , 21622 , | br
 : main = $0 0 b! @b down b! !b 1 b! @b down b! !b 2 b! @b down b! !b 3 b! @b down b! !b 0 b! @b down b! !b left b! @b 0 b! !b 1 b! @b down b! !b left b! @b 1 b! !b 2 b! @b down b! !b left b! @b 2 b! !b 3 b! @b down b! !b left b! @b 3 b! !b main = $0 ; | cr
 
-{block 920}
+{block 800}
 ( -) # 714 ( id 60 mem 0) 0 org | cr
 | br
 : main = $0 down b! @b left b! !b down b! @b left b! !b down b! @b left b! !b down b! @b left b! !b main = $0 ; | cr
