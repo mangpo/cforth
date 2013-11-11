@@ -92,7 +92,7 @@ $2629 , $446 , $7006 , $5475 , $5272 , $4639 , $986 , $4871 , | cr
     for | cr
       2* unext dup then drop push drop pop dup 1if dup over *. push drop pop 0 b! !b 0 5 b! !b | cr
   1 a! 3 for | cr
-    5 b! @b 0 b! @b a push *. push drop pop pop a! @+ . + 5 b! !b next 5 b! @b over *. push drop pop over . + right b! !b main = $0 ; | cr
+    5 b! @b 0 b! @b a push *. push drop pop pop a! @+ . + 5 b! !b next 5 b! @b over *. push drop pop over . + right b! !b main = $3b ; | cr
 
 {block 1060}
 ( snorkel interface 209 )

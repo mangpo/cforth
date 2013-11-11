@@ -85,7 +85,7 @@ host target | cr
 : 14rep = $0 4 dup 2* b! @b . + b! = $0 ; | cr
 : main = $0 277 a! @ 8 b! !b @ 14rep !b dup or | cr
   3 a dup or a! for | cr
-    dup @+ 14rep @b a push *.17 push b! pop . + push b! 8 a! pop @+ 1 pop a! . + 3 and 8 b! !b next dup down b! !b main = $0 ; | cr
+    dup @+ 14rep @b a push *.17 push b! pop . + push b! 8 a! pop @+ 1 pop a! . + 3 and 8 b! !b next dup down b! !b main = $28 ; | cr
 
 {block 808}
 ( -) # 110 ( id 4 mem 5) 0 org | cr
@@ -94,7 +94,7 @@ host target | cr
 : 15rep = $0 16rep @b = $0 ; | cr
 : main = $0 469 a! @ 8 a! 277 b! dup !b !+ 15rep down b! !b right b! @b 16rep !b dup or | cr
   3 a dup or a! for | cr
-    dup @+ 15rep a push *.17 push b! pop . + push b! 8 a! pop @+ 1 pop a! . + 3 and 8 b! !b next dup 469 b! 277 a! @ . + !b main = $0 ; | cr
+    dup @+ 15rep a push *.17 push b! pop . + push b! 8 a! pop @+ 1 pop a! . + 3 and 8 b! !b next dup 469 b! 277 a! @ . + !b main = $33 ; | cr
 
 {block 810}
 ( -) # 111 ( id 5 mem 5) 0 org | cr
@@ -103,7 +103,7 @@ host target | cr
 : 17rep = $0 18rep @b = $0 ; | cr
 : main = $0 325 a! @ 469 a! dup ! 8 b! !b 17rep right b! !b up b! @b 18rep !b dup or | cr
   3 a dup or a! for | cr
-    dup @+ 17rep a push *.17 push b! pop . + push b! 8 a! pop @+ 1 pop a! . + 3 and 8 b! !b next 469 a! @ 325 a! over . + ! main = $0 ; | cr
+    dup @+ 17rep a push *.17 push b! pop . + push b! 8 a! pop @+ 1 pop a! . + 3 and 8 b! !b next 469 a! @ 325 a! over . + ! main = $33 ; | cr
 
 {block 816}
 ( -) # 210 ( id 8 mem 0) 0 org | cr
@@ -120,13 +120,13 @@ $00000 , $33c11 , $295f7 , $226fa , $20001 , $226fa , $295f7 , $33c11 , | cr
 : 19rep = $0 20rep @b = $0 ; | cr
 : main = $0 373 a! @ 8 b! !b @b 325 a! ! 19rep up b! !b right b! @b 20rep !b dup or | cr
   3 a dup or a! for | cr
-    dup @+ 19rep a push *.17 push b! pop . + push b! 8 a! pop @+ 1 pop a! . + 3 and 8 b! !b next dup 325 a! 469 b! @ . + !b main = $0 ; | cr
+    dup @+ 19rep a push *.17 push b! pop . + push b! 8 a! pop @+ 1 pop a! . + 3 and 8 b! !b next dup 325 a! 469 b! @ . + !b main = $33 ; | cr
 
 {block 820}
 ( -) # 212 ( id 10 mem 0) 0 org | cr
 | br
 : main = $0 373 b! dup dup or
-: offset dup !b 1 . + 3 and offset = $0 ; | cr
+: offset dup !b 1 . + 3 and offset = $8 ; | cr
 
 {block 1060}
 ( snorkel interface 209 )

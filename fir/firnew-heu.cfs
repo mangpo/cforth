@@ -45,7 +45,7 @@
 {block 362}
 ( - load descriptors)
 : l, dup +node 100 /mod 1 and 2* swap 1 and + 1714 + 
-  push 32 32 pop /part ( warm) $a9 /p ;
+  push 32 32 pop /part ( main) $a9 /p ;
 : ganglia nns for i -1 + n-nn l, next ; | ,
 
 ( sea of mk1) ganglia | ,
@@ -61,31 +61,42 @@
 
 {block 790}
 host target | cr
+10 node 800 load
+110 node 806 load
 210 node 812 load
-211 node 814 load
 209 node 1060 load
 
 {block 792}
 : /node dup +node /ram ; | cr
+10 /node $10 /p
+110 /node $19 /p
 210 /node left /p
-211 /node $b /p
 209 /node left /b right /a right /p
+
+{block 800}
+( -) # 10 ( id 0 mem 16) 0 org | cr
+8192 , 8192 , 16384 , 32768 , 32768 , 65536 , 65536 , 131071 , 131071 , 131071 , 131071 , 65536 , 65536 , 32768 , 32768 , 16384 , | br
+: main = $0 | cr
+  0 a! 15 for | cr
+    @+ down b! !b next main = $0 ; | cr
+
+{block 806}
+( -) # 110 ( id 3 mem 18) 0 org | cr
+0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: 2rep = $0 b! @b 16 b! @b b! = $0 ; | cr
+: 1rep = $0 b! @b 1 . + 15 and = $0 ; | cr
+: main = $0 0 17 b! @b 16 b! !b up 2rep !b 0 push drop pop | cr
+  15 for | cr
+    dup down 2rep @b *.17 push drop pop . + push drop pop 16 1rep 16 b! !b next 17 1rep 17 b! !b dup up b! !b main = $0 ; | cr
 
 {block 812}
 ( -) # 210 ( id 6 mem 0) 0 org | cr
-0 , 64 , 128 , 192 , 256 , 320 , 384 , 448 , 
-512 , 148 , 312 , 68 , 38 , 378 , 369 , 91 , | cr
+$00000 , $0c3ef , $16a09 , $1d906 , $1ffff , $1d906 , $16a09 , $0c3ef , | cr
+$00000 , $33c11 , $295f7 , $226fa , $20001 , $226fa , $295f7 , $33c11 , | cr
+| br
 : /start = $0 
-  right b! 
-  dup dup or a!
-  15 for 
-    @+ !b @b next left b! !b = $0 ; | cr
-
-{block 814}
-( -) # 211 ( id 7 mem 4) 0 org | cr
-0 , 450 , 900 , 1350 , 1800 , 2250 , 2700 , 3150 , 3600 , 0 , 0 , | br
-: main = $0 469 b! @b dup 10 a! over 63 and ! 2/ 2/ 2/ 2/ 2/ 2/ 9 b! a! a !b @+ @+ - 9 a! @+ b! @b . + - @ | cr
-  a! dup dup or 17 for +* unext drop drop a 2/ 2/ 2/ 2/ 2/ 2/ 469 b! . + !b main = $36 ; | cr
+  up b! 
+  0 a! 15 for @+ !b @b next left b! !b = $0 ; | cr
 
 {block 1060}
 ( snorkel interface 209 )

@@ -73,7 +73,7 @@ host target | cr
 ( -) # 210 ( id 6 mem 0) 0 org | cr
 0 , $10000 , $8000 , $4000 , $2000 , $1000 , $800 , $400 , 
 $2629 , $446 , $7006 , $5475 , $5272 , $4639 , $986 , $4871 , | cr
-: div17 = $0 a! 61681 dup dup or 17 for +* unext 2/ 2/ ;
+: div17 = $0 a! 61681 dup dup or 17 for +* unext 2/ 2/ = $0 ;
 : /start
   dup dup or a!
   15 for 

@@ -78,14 +78,14 @@ host target | cr
 0 , | br
 : main = $0 over dup or dup a! @+ 469 650 a! b! !b +* @ !b dup or | cr
   15 for | cr
-    469 b! @b . + next 0 b! dup 65537 @b . + 15 and !b up b! !b main = $0 ; | cr
+    469 b! @b . + next 0 b! dup 65537 @b . + 15 and !b up b! !b main = $15 ; | cr
 
 {block 808}
 ( -) # 111 ( id 4 mem 4) 0 org | cr
 8192 , 8192 , 16384 , 32768 , 32768 , 65536 , 65536 , 131071 , 131071 , 131071 , 131071 , 65536 , 65536 , 32768 , 32768 , 16384 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
 : main = $0 469 b! @b @b over 16 . + b! !b | cr
   over dup or a! 15 for | cr
-    @+ over 16 . + b! @b a push *.17 469 b! pop a! !b b! 15 over 98305 . + and push drop pop next main = $0 ; | cr
+    @+ over 16 . + b! @b a push *.17 469 b! pop a! !b b! 15 over 98305 . + and push drop pop next main = $36 ; | cr
 
 {block 812}
 ( -) # 210 ( id 6 mem 0) 0 org | cr
