@@ -2,7 +2,7 @@ CF2F=./cf2f.py
 F2CF=./f2cf.py
 BACK_CF=./OkadBack.cf
 WORK_CF=./OkadWo2rk.cf
-NEW_CFS=md1-entire-f-circular.cfs
+NEW_CFS=md130-rightrot.cfs
 
 all: work.cf
 
