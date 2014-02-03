@@ -86,7 +86,7 @@ host target | cr
 {block 792}
 : /node dup +node /ram ; | cr
 11 /node $4 /p
-12 /node $13 /p
+12 /node $10 /p
 13 /node $20 /p
 110 /node $4 /p
 111 /node $38 /p
@@ -102,7 +102,7 @@ host target | cr
 312 /node $23 /p
 313 /node $29 /p
 314 /node $17 /p
-411 /node $13 /p
+411 /node $10 /p
 412 /node $22 /p
 413 /node $20 /p
 414 /node $22 /p
@@ -118,9 +118,9 @@ host target | cr
 0 , 0 , 0 , | br
 : 16rep = $0 277 b! @b @b @b = $0 ; | cr
 : fff = $0 dup push or and pop or  = $0 ; | cr
-: ggg = $0 a! push a and pop a - and over $ffff or and or = $0 ; | cr
+: ggg = $0 a! over or dup a and or or = $0 ; | cr
 : hhh = $0 or or = $0 ; | cr
-: iii = $0 a! push a - over $ffff or and or pop or = $0 ; | cr
+: iii = $0 a! over - 65535 a or and or or = $0 ; | cr
 : main = $0 a a or | cr
   15 for | cr
     16rep fff push drop pop dup down b! !b next | cr
@@ -287,9 +287,9 @@ host target | cr
 0 , 0 , 0 , | br
 : 30rep = $0 325 b! @b @b @b = $0 ; | cr
 : fff = $0 dup push or and pop or  = $0 ; | cr
-: ggg = $0 a! push a and pop a - and over $ffff or and or = $0 ; | cr
+: ggg = $0 a! over or dup a and or or = $0 ; | cr
 : hhh = $0 or or = $0 ; | cr
-: iii = $0 a! push a - over $ffff or and or pop or = $0 ; | cr
+: iii = $0 a! over - 65535 a or and or or = $0 ; | cr
 : main = $0 a a or | cr
   15 for | cr
     30rep fff push drop pop dup up b! !b next | cr
