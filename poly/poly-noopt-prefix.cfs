@@ -68,14 +68,14 @@ host target | cr
 {block 792}
 : /node dup +node /ram ; | cr
 210 /node left /p
-211 /node $11 /p
+211 /node $9 /p
 209 /node left /b right /a right /p
 
 {block 812}
 ( -) # 210 ( id 6 mem 0) 0 org | cr
 | br
 0 , $10000 , $8000 , $4000 , $2000 , $1000 , $800 , $400 , 
-$2629 , $446 , $7006 , $5475 , $5272 , $4639 , $986 , $4871 , | cr
+$32629 , $446 , $37006 , $5475 , $35272 , $4639 , $986 , $34871 , | cr
 : /start = $0 
   right b! 
   dup dup or a!
@@ -83,16 +83,11 @@ $2629 , $446 , $7006 , $5475 , $5272 , $4639 , $986 , $4871 , | cr
     @+ !b @b next left b! !b = $0 ; | cr
 
 {block 814}
-( -) # 211 ( id 7 mem 6) 0 org | cr
-0 , -281 , 5203 , -42329 , 37407 , 0 , | br
-: 1if = $0 | cr
-  .. -if drop dup 65536 . + push drop pop ; ] then drop 65536 over - 1 . + . + push drop pop = $0 ; | cr
-: main = $0 0 right b! @b 2 | cr
-  .. if -1 . + | cr
-    for | cr
-      2* unext dup then drop push drop pop dup 1if dup over *. push drop pop 0 b! !b 0 5 b! !b | cr
-  1 a! 3 for | cr
-    5 b! @b 0 b! @b a push *. push drop pop pop a! @+ . + 5 b! !b next 5 b! @b over *. push drop pop over . + right b! !b main = $3b ; | cr
+( -) # 211 ( id 7 mem 9) 0 org | cr
+31 , -46 , 54 , -72 , -51 , -46 , -67 , 69 , 0 , | br
+: main = $0 right b! @b 8 b! !b dup dup or | cr
+  dup a! 7 for | cr
+    dup @b a push *. push drop pop pop a! @+ . + push drop pop next dup right b! !b main = $0 ; | cr
 
 {block 1060}
 ( snorkel interface 209 )
@@ -106,5 +101,3 @@ $2629 , $446 , $7006 , $5475 , $5272 , $4639 , $986 , $4871 , | cr
 {block 1072}
 ( softsim test config) | cr
 208 +node 208 /ram $0 /p
-
-

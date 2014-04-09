@@ -92,7 +92,7 @@ $32629 , $446 , $37006 , $5475 , $35272 , $4639 , $986 , $34871 , | cr
 {block 1060}
 ( snorkel interface 209 )
 0 org | cr
-: start 3 for @p !b [ .. /start .. ] @b next ! ;
+: start 0 for @p !b [ .. /start .. ] @b next ! ;
 
 {block 1070}
 ( softsim  ) 208 node 0 org | cr
