@@ -68,7 +68,7 @@ host target | cr
 {block 792}
 : /node dup +node /ram ; | cr
 210 /node left /p
-211 /node $11 /p
+211 /node $d /p
 209 /node left /b right /a right /p
 
 {block 812}
@@ -83,16 +83,16 @@ $2629 , $446 , $7006 , $5475 , $5272 , $4639 , $986 , $4871 , | cr
     @+ !b @b next left b! !b = $0 ; | cr
 
 {block 814}
-( -) # 211 ( id 7 mem 6) 0 org | cr
+( -) # 211 ( id 7 mem 4) 0 org | cr
 0 , -281 , 5203 , -42329 , 37407 , 0 , | br
 : 1if = $0 | cr
-  .. -if drop dup 65536 . + push drop pop ; ] then drop 65536 over - 1 . + . + push drop pop = $0 ; | cr
-: main = $0 0 right b! @b 2 | cr
+  .. -if drop 65536 . + ; ] then drop 196607 . + - = $0 ; | cr
+: main = $0 over 469 a! dup or @ 2 | cr
   .. if -1 . + | cr
     for | cr
-      2* unext dup then drop push drop pop dup 1if dup over *. push drop pop 0 b! !b 0 5 b! !b | cr
-  1 a! 3 for | cr
-    5 b! @b 0 b! @b a push *. push drop pop pop a! @+ . + 5 b! !b next 5 b! @b over *. push drop pop over . + right b! !b main = $3b ; | cr
+      2* unext dup then drop push drop pop dup 1if dup over *. a a or 5 b! a! ! dup or !b | cr
+  3 dup 2/ a! for | cr
+    a push @b dup dup or a! @ *. pop a! @+ . + !b drop next @b over *. push a! dup 469 a! pop . + ! main = $32 ; | cr
 
 {block 1060}
 ( snorkel interface 209 )
