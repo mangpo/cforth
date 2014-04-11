@@ -2,7 +2,7 @@ CF2F=./cf2f.py
 F2CF=./f2cf.py
 BACK_CF=./OkadBack.cf
 WORK_CF=./OkadWo2rk.cf
-NEW_CFS=md209-rightrot-opt-real.cfs
+NEW_CFS=md5-improvement/md410-rightrot-mod.cfs
 
 all: work.cf
 
