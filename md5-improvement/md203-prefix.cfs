@@ -88,7 +88,7 @@ host target | cr
 12 /node $10 /p
 13 /node $20 /p
 110 /node $4 /p
-111 /node $34 /p
+111 /node $32 /p
 112 /node $4 /p
 113 /node $22 /p
 211 /node $2b /p
@@ -97,7 +97,7 @@ host target | cr
 214 /node $6 /p
 310 /node $1f /p
 311 /node $8 /p
-312 /node $21 /p
+312 /node $20 /p
 313 /node $28 /p
 314 /node $17 /p
 411 /node $10 /p
@@ -155,7 +155,7 @@ dup or a! @ !b @b !+ @ !b @b !+ @ !b @b !+ @ !b @b ! warm = $0 ; | cr
 : cadd = $0 dup dup or a! !+ !+ !+ ! dup dup or @ 1 a! @+ . + 
 push drop pop @ dup dup or a! @ . + over 15 for 2/ unext 
 3 and . + push 65535 and pop 65535 and = $0 ; | cr
-: 18rep = $0 b! !b 277 469 b! a! @b @ 373 a +* a! b! @b @ cadd 6 b! !b 469 a! ! @b 277 = $0 ; | cr
+: 18rep = $0 b! !b 277 469 b! a! @b @ 373 a +* a! b! @b @ cadd push 469 a! ! pop 277 = $0 ; | cr
 : 17rep = $0 18rep 18rep = $0 ; | cr
 : main = $0 19rep b! !b 19rep 17rep 17rep b! !b warm = $0 ; | cr
 
@@ -252,7 +252,12 @@ push drop pop @ dup dup or a! @ . + over 15 for 2/ unext
 : csum = $0 
 + push dup dup or pop
 down b! @b 3 and . + push drop pop 65535 and = $0 ; | cr
-: sumrotate = $0 push 2 a! !+ ! pop dup @ . + up b! @b . + left b! @b csum dup 469 b! dup 4 a! !+ +* and !b @+ leftrotate csum push drop pop = $0 ; | cr
+: sumrotate = $0 
+a! 2 b! !b a over a . +
+up b! @b . + left b! @b 
+csum 
+right b! !b 2 b! @b
+leftrotate csum push drop pop = $0 ; | cr
 : main = $0 | cr
   63 for | cr
     373 b! @b @b @b sumrotate left b! !b next warm = $0 ; | cr

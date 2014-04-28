@@ -230,8 +230,7 @@ host target | cr
 : 26rep = $0 16 b! !b | cr
   15 for | cr
     dup b! @b sumrotate dup 16 b! @b . + 15 and push drop pop next = $0 ; | cr
-: main = $0 dup dup or | cr
-  a 1 26rep 1 5 26rep 5 3 26rep dup dup or 7 26rep warm = $0 ; | cr
+: main = $0 dup dup or 1 26rep 1 5 26rep 5 3 26rep dup dup or 7 26rep warm = $0 ; | cr
 
 {block 850}
 ( -) # 311 ( id 25 mem 4) 0 org | cr
