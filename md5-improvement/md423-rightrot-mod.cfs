@@ -145,12 +145,12 @@ host target | cr
 {block 818}
 ( -) # 111 ( id 9 mem 7) 0 org | cr
 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
-: 20rep = $0 right b! @b left b! !b down b! @b up = $0 ; | cr
-: 19rep = $0 20rep b! !b 20rep = $0 ; | cr
-: cadd = $0 over dup dup or a! push !+ !+ !+ ! dup dup or @ pop dup dup or b! 2 a! . + @b @ . + over 2/ 15 for 2/ unext 3 and . + 4 a! ! 65535 and dup 65535 4 a! @ and dup ! = $0 ; | cr
-: 18rep = $0 b! !b right b! @b down b! @b left b! @b up b! @b cadd 469 b! 6 a! ! !b @+ 277 = $0 ; | cr
-: 17rep = $0 18rep 18rep = $0 ; | cr
-: main = $0 19rep b! !b 19rep 17rep 17rep b! !b warm = $0 ; | cr
+: 20rep = $7 right b! @b left b! !b down b! @b up = $e/3 ; | cr
+: 19rep = $e 20rep b! !b 20rep = $11 ; | cr
+: cadd = $11 over dup dup or a! push !+ !+ !+ ! dup dup or @ pop dup dup or b! 2 a! . + @b @ . + over 2/ 15 for 2/ unext 3 and . + 4 a! ! 65535 and dup 65535 4 a! @ and dup ! = $28/1 ; | cr
+: 18rep = $28 b! !b right b! @b down b! @b left b! @b up b! @b cadd 469 b! 6 a! ! !b @+ 277 = $38/2 ; | cr
+: 17rep = $38 18rep 18rep = $0 ; | cr
+: main = $3a 19rep b! !b 19rep 17rep 17rep b! !b warm = $41 ; | cr
 
 {block 820}
 ( -) # 112 ( id 10 mem 4) 0 org | cr
@@ -201,18 +201,18 @@ host target | cr
 {block 838}
 ( -) # 213 ( id 19 mem 5) 0 org | cr
 0 , 0 , 0 , 0 , 0 , | br
-: 1if = $0 | cr
+: 1if = $5 | cr
   .. -if 277 b! dup dup or a! @ dup @b ! down b! !b  ; ] then drop 
-= $0 ; | cr
-: rrotate = $0 | cr
+= $d/1 ; | cr
+: rrotate = $d | cr
   .. if push push dup dup or dup a! pop over - pop . + | cr
     for | cr
-      +* unext push drop pop a  ; ] then dup or = $0 ; | cr
-: leftrotate = $0 dup dup or a! ! 373 b! a @b 1if dup dup or b! @b left b! @b rrotate 4 1 a! b! !b !+ 277 @b ! a! @ 2 b! @b 2/ 2/ 469 a! . + 65535 and ! 277 b! 1 a! @ !b = $0 ; | cr
-: sumrotate = $0 325 b! @b 469 a! ! @+ leftrotate = $0 ; | cr
-: main = $0 | cr
+      +* unext push drop pop a  ; ] then dup or = $16/2 ; | cr
+: leftrotate = $16 dup dup or a! ! 373 b! a @b 1if dup dup or b! @b left b! @b rrotate 4 1 a! b! !b !+ 277 @b ! a! @ 2 b! @b 2/ 2/ 469 a! . + 65535 and ! 277 b! 1 a! @ !b = $31/2 ; | cr
+: sumrotate = $31 325 b! @b 469 a! ! @+ leftrotate = $36 ; | cr
+: main = $36 | cr
   63 for | cr
-    sumrotate next warm = $0 ; | cr
+    sumrotate next warm = $3b ; | cr
 
 {block 840}
 ( -) # 214 ( id 20 mem 0) 0 org | cr
@@ -244,12 +244,12 @@ host target | cr
 {block 852}
 ( -) # 312 ( id 26 mem 5) 0 org | cr
 0 , 0 , 0 , 0 , 0 , | br
-: leftrotate = $0 469 b! @b = $0 ; | cr
-: csum = $0 dup dup or a! !+ ! dup dup or @ dup dup or b! @b 277 a! . + @+ 3 and . + 65535 and push a! pop = $0 ; | cr
-: sumrotate = $0 push 2 a! !+ 325 b! ! pop @+ over . + @b . + left b! @b csum 4 a! ! @ 938 +* b! !b @ leftrotate csum = $0 ; | cr
-: main = $0 | cr
+: leftrotate = $5 469 b! @b = $7/3 ; | cr
+: csum = $7 dup dup or a! !+ ! dup dup or @ dup dup or b! @b 277 a! . + @+ 3 and . + 65535 and push a! pop = $13/1 ; | cr
+: sumrotate = $13 push 2 a! !+ 325 b! ! pop @+ over . + @b . + left b! @b csum 4 a! ! @ 938 +* b! !b @ leftrotate csum = $24 ; | cr
+: main = $24 | cr
   63 for | cr
-    373 b! @b @b @b sumrotate left b! !b next warm = $0 ; | cr
+    373 b! @b @b @b sumrotate left b! !b next warm = $2e ; | cr
 
 {block 854}
 ( -) # 313 ( id 27 mem 4) 0 org | cr
@@ -271,16 +271,16 @@ host target | cr
 {block 856}
 ( -) # 314 ( id 28 mem 0) 0 org | cr
 | br
-: 29rep = $0 dup - 17 . + = $0 ; | cr
-: 28rep = $0 dup down b! !b dup left b! !b = $0 ; | cr
-: 1if = $0 | cr
+: 29rep = $0 dup - 17 . + = $3/1 ; | cr
+: 28rep = $3 dup down b! !b dup left b! !b = $8/2 ; | cr
+: 1if = $8 | cr
   .. -if drop dup 16 - 1 . + . + push drop pop  ; ] then drop 
-= $0 ; | cr
-: leftrotate = $0 29rep 28rep 1if 29rep 28rep = $0 ; | cr
-: sumrotate = $0 up b! @b leftrotate = $0 ; | cr
-: main = $0 | cr
+= $10/1 ; | cr
+: leftrotate = $10 29rep 28rep 1if 29rep 28rep = $15 ; | cr
+: sumrotate = $15 up b! @b leftrotate = $18 ; | cr
+: main = $18 | cr
   63 for | cr
-    sumrotate next warm = $0 ; | cr
+    sumrotate next warm = $1d ; | cr
 
 {block 866}
 ( -) # 411 ( id 33 mem 3) 0 org | cr

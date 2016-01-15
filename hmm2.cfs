@@ -1,0 +1,522 @@
+{block 200}
+( user f18 code) reclaim 790 load | br
+
+{block 202}
+( ga application tools)
+: a-com [ 10 ] ; | *
+: a-bps 921600 ;
+: c-com [ 3 ] ; | *
+: c-bps 921600 ;
+: host 206 ; | *
+: target 208 ; | , 
+
+( modules) | *
+: sram [ 264 ] ; | *
+: pf [ 360 ] ; | *
+: ether [ 720 ] ; | , 
+
+( utils) | *
+: streamer [ 282 ] ; | *
+: loader [ 210 ] ; | , | ,
+
+: selftest ( port) [ 708 ] load ; :var stp [0x3]
+: autotest ( port) [ 712 ] load ;
+
+{block 216}
+792 load
+
+{block 360}
+( polyforth vm) reclaim | ,
+( sram) sram load | ,
+( serial) 38 fh 3 loads reclaim | ,
+( stack) 106 node $39 org 278 load 14 fh 2 loads | ,
+( coprocs) 22 fh 4 loads | ,
+( bitsy) 105 node 18 fh 2 loads | ,
+( coprocs) 30 fh 4 loads | ,
+( flash to sram) 86 fh 2 loads reclaim | ,
+( erase and burn flash) 288 load | ,
+( spi speedup) 290 load | ,
+( serial wires) 102 node $20 org | ,
+: start @ !b start ; 1709 bin | ,
+( ganglia) 44 fh load ( snorkel) 48 fh load | ,
+( spi) 50 fh load
+
+{block 362}
+( - load descriptors)
+: l, dup +node 100 /mod 1 and 2* swap 1 and + 1714 + 
+  push 32 32 pop /part ( warm) $a9 /p ;
+: ganglia nns for i -1 + n-nn l, next ; | ,
+
+( sea of mk1) ganglia | ,
+( snorkel) 207 +node 1605 /ram up /b $37 /p | ,
+( sram) sram 2 + load | ,
+( vm) 2 fh load | ,
+( serial) 4 fh load | ,
+( additional i/o) 6 fh load | ,
+( md5) 792 load | ,
+( clock nodes) exit | ,
+517 +node 517 /ram io /b $200 /p | ,
+516 +node 516 /ram left dup /a /p right /b | ,
+
+{block 1388}
+( routing; called with 'a relay')
+: relay ( a) pop a! @+ push @+ .. zif | indent
+     drop ahead ( done) [ swap ] then | indent
+     pop over push @p+ ( ') a relay ( ') | indent
+     !b !b !b begin @+ !b unext
+: done then a push a! ;
+
+{block 790}
+host target | cr
+200 node 872 load
+205 node 882 load
+100 node 836 load
+0 node 800 load
+1 node 802 load
+2 node 804 load
+3 node 806 load
+103 node 842 load
+101 node 838 load
+102 node 840 load
+104 node 844 load
+105 node 846 load
+201 node 874 load
+202 node 876 load
+203 node 878 load
+204 node 880 load
+206 node 884 load
+301 node 910 load
+302 node 912 load
+303 node 914 load
+304 node 916 load
+305 node 918 load
+401 node 946 load
+402 node 948 load
+403 node 950 load
+404 node 952 load
+405 node 954 load
+501 node 982 load
+502 node 984 load
+503 node 986 load
+504 node 988 load
+505 node 990 load
+506 node 992 load
+507 node 994 load
+508 node 996 load
+509 node 998 load
+605 node 1000 load
+
+{block 792}
+: /node dup +node /ram ; | cr
+0 /node right /p right /a 
+1 /node left /p right /a 
+2 /node right /p left /a 
+3 /node down /p down /a 
+100 /node right /p right /a 
+101 /node $37 /p 
+102 /node $32 /p 
+103 /node up /p 
+104 /node $13 /p 
+105 /node $2a /p 
+200 /node up /p up /a 
+201 /node $2b /p 
+202 /node $2f /p 
+203 /node $1 /p left /a 
+204 /node $f /p left /a 
+205 /node right /p down /a 
+206 /node $2a /p 
+301 /node $b /p down /a 
+302 /node $b /p down /a 
+303 /node $0 /p right /a 
+304 /node $4 /p down /a 
+305 /node $2d /p 
+401 /node $0 /p up /a 
+402 /node $7 /p up /a 
+403 /node $0 /p left /a
+404 /node $8 /p up /a 
+405 /node $a /p down /a 
+501 /node $0 /p left /a 
+502 /node $8 /p right /a 
+503 /node $7 /p right /a 
+504 /node $20 /p right /a 
+505 /node $29 /p down /a 
+506 /node $26 /p right /a 
+507 /node $6 /p right /a 
+508 /node $27 /p right /a 
+509 /node $28 /p right /a 
+605 /node $15 /p
+
+{block 998}
+( -) # 509 ( id 99 mem 3) 0 org | cr
+0 , 0 , 0 , | br
+: 16rep = $0 - 1 . + . + dup ! = $0 ; | cr
+: 15rep = $0 drop @b 205 . + @ 16rep drop = $0 ; | cr
+: 14rep = $0 15rep @ = $0 ; | cr
+: 13rep = $0 b! @b 205 - 1 . + . + 16rep = $0 ; | cr
+: 1if = $0 | cr
+  .. if drop @ dup dup or 13rep 14rep 1 13rep 14rep 2 13rep 15rep ; ] then drop = $0 ; | cr
+: 2if = $0 | cr
+  .. if drop @ dup dup or b! !b @ 1 b! !b @ 2 b! !b ; ] then drop = $0 ; | cr
+: main = $0 @ 1if @ 2if main = $0 ; | cr
+
+{block 996}
+( -) # 508 ( id 98 mem 3) 0 org | cr
+0 , 0 , 0 , | br
+: 12rep = $0 | cr
+  .. -if drop 1 push drop pop ; ] then drop = $0 ; | cr
+: 7if = $0 | cr
+  .. if drop dup dup or push drop pop dup dup or b! @b ! @ 12rep @b ! @ 12rep 1 b! @b ! @ 12rep @b ! @ 12rep 2 b! @b ! @ 12rep @b ! @ 12rep ; ] then drop = $0 ; | cr
+: 8if = $0 | cr
+  .. if drop dup dup or b! @b ! 1 b! @b ! 2 b! @b ! ; ] then drop = $0 ; | cr
+: main = $0 left b! @b dup dup or b! !b left b! @b 1 b! !b left b! @b 2 b! !b dup dup or left b! @b push drop pop dup dup ! 7if dup dup ! 8if dup left b! !b drop main = $0 ; | cr
+
+{block 994}
+( -) # 507 ( id 97 mem 1) 0 org | cr
+0 , | br
+: 11rep = $0 | cr
+  .. -if drop 1 push drop pop ; ] then drop = $0 ; | cr
+: main = $0 @ dup dup or b! !b dup dup or dup dup or push drop pop 563 @b - 1 . + . + 11rep @b 461 - 1 . + . + 11rep @ left b! !b @ !b @ !b dup !b @b ! drop main = $0 ; | cr
+
+{block 992}
+( -) # 506 ( id 96 mem 2) 0 org | cr
+0 , 0 , | br
+: 9rep = $0 | cr
+  for | cr
+    +* unext = $0 ; | cr
+: 10rep = $0 
+  -if - 1 . + then dup a push a! dup dup or 17 9rep push dup or pop 8 9rep drop drop a pop a! = $0 ; | cr
+: filter = $0 a push dup dup or a! push !+ !+ pop pop a! 1 b! @b 10rep dup dup or b! @b 10rep . + over 10rep . + ! 1 b! @b ! dup dup or b! @b ! dup ! @ left b! !b drop = $0 ; | cr
+: main = $0 left b! @b @b @b filter main = $0 ; | cr
+
+{block 1000}
+( -) # 605 0 org | cr
+262139 , 56 , 568 , 0 , 36 , 512 , 20 , 261898 , 553 , 262052 , 46 , 568 , 
+0 , 261955 , 538 , 262118 , 261960 , 517 , 46 , 123 , 563 ,
+| br
+: main = $0 up b! dup or a! 20 for @+ !b next warm = $0 ;
+
+{block 990}
+( -) # 505 ( id 95 mem 6) 0 org | cr
+0 , 0 , 0 , 0 , 0 , 0 , | br
+: 1while = $0 dup !b @b | cr
+  .. -if drop dup 2* push drop pop 1while ; ] then drop = $0 ; | cr
+: pout = $0 @ = $0 ; | cr
+: input = $0 a push dup dup or a! !+ !+ push pop pop a! dup ! 1 b! @b ! dup dup or b! @b ! right b! @b push drop pop = $0 ; | cr
+: 2if = $0 | cr
+  .. if drop dup dup or push drop pop dup 2 b! @b 3 b! @b 4 b! @b input over - and . + push drop pop 1while ; ] then drop = $0 ; | cr
+: filter = $0 @b = $0 ; | cr
+: main = $0 
+a push | cr
+up b! 2 a! @b !+ @b !+ @b !+  | cr
+left b! 2 a! @+ !b @+ !b @+ !b  | cr
+pop a! | cr
+filter dup right b! !b dup ! 2if pout 5 b! !b main = $3f ; | cr
+
+{block 988}
+( -) # 504 ( id 94 mem 0) 0 org | cr
+| br
+: 1while = $0 dup dup or @ - 1 . + . + dup ! | cr
+  .. -if drop dup 1 . + push drop pop 1while ; ] then drop = $0 ; | cr
+: 2if = $0 | cr
+  .. -if drop dup 3 - 1 . + . + !b ; ] then drop = $0 ; | cr
+: input = $0 @b ! = $0 ; | cr
+: 3if = $0 | cr
+  .. if drop input dup dup or push drop pop 1while 3 over - 1 . + . + dup left b! !b 2if ; ] then drop = $0 ; | cr
+: main = $0 dup dup or @ dup left b! !b dup down b! !b 3if main = $0 ; | cr
+
+{block 986}
+( -) # 503 ( id 93 mem 0) 0 org | cr
+| br
+: 1if = $0 | cr
+  .. -if drop @b ! ; ] then drop = $0 ; | cr
+: 2if = $0 | cr
+  .. if drop @b dup ! 1if ; ] then drop = $0 ; | cr
+: main = $0 left b! @b dup ! 2if main = $0 ; | cr
+
+{block 984}
+( -) # 502 ( id 92 mem 0) 0 org | cr
+| br
+: 1if = $0 | cr
+  .. -if drop @ !b ; ] then drop = $0 ; | cr
+: 2if = $0 | cr
+  .. if drop @ dup down b! !b 1if ; ] then drop = $0 ; | cr
+: main = $0 @ dup down b! !b dup left b! !b 2if main = $0 ; | cr
+
+{block 982}
+( -) # 501 ( id 91 mem 0) 0 org | cr
+| br
+: main = $0 @ dup down b! !b drop main = $0 ; | cr
+
+{block 954}
+( -) # 405 ( id 77 mem 0) 0 org | cr
+| br
+: pout = $0 right b! @b ! = $0 ; | cr
+: input = $0 @ up b! !b @ !b @ !b = $0 ; | cr
+: 1if = $0 | cr
+  .. if drop input ; ] then drop = $0 ; | cr
+: main = $0 @ 1if pout main = $0 ; | cr
+
+{block 952}
+( -) # 404 ( id 76 mem 0) 0 org | cr
+| br
+: pout = $0 left b! @b right b! !b = $0 ; | cr
+: input = $0 @ !b = $0 ; | cr
+: 1if = $0 | cr
+  .. if drop input ; ] then drop = $0 ; | cr
+: main = $0 down b! @b dup ! 1if pout main = $0 ; | cr
+
+{block 950}
+( -) # 403 ( id 75 mem 0) 0 org | cr
+| br
+: main = $0 up b! @b ! main = $0 ; | cr
+
+{block 948}
+( -) # 402 ( id 74 mem 0) 0 org | cr
+| br
+: 1if = $0 | cr
+  .. -if drop @b ! ; ] then drop = $0 ; | cr
+: 2if = $0 | cr
+  .. if drop @b dup ! 1if ; ] then drop = $0 ; | cr
+: main = $0 down b! @b dup ! 2if main = $0 ; | cr
+
+{block 946}
+( -) # 401 ( id 73 mem 0) 0 org | cr
+| br
+: main = $0 down b! @b dup ! drop main = $0 ; | cr
+
+{block 918}
+( -) # 305 ( id 59 mem 14) 0 org | cr
+312 , 228 , 262141 , 261875 , 261832 , 261924 , 0 , 220 , 0 , 31 , 262142 , 0 , 0 , 0 , | br
+: 8rep = $0 up b! @b down b! !b = $0 ; | cr
+: 7rep = $0 | cr
+  for | cr
+    +* unext = $0 ; | cr
+: group = $0 dup dup or @b push drop pop | cr
+  dup dup or a! 13 for | cr
+    @+ over - 1 . + . + 
+    -if - 1 . + then dup a push a! dup dup or 17 7rep push dup or pop 8 7rep drop drop a pop a! !b next drop = $0 ; | cr
+: main = $0 8rep 8rep 8rep group main = $0 ; | cr
+
+{block 916}
+( -) # 304 ( id 58 mem 0) 0 org | cr
+| br
+: input = $0 @ !b = $0 ; | cr
+: 1if = $0 | cr
+  .. if drop input ; ] then drop = $0 ; | cr
+: main = $0 up b! @b dup ! 1if main = $0 ; | cr
+
+{block 914}
+( -) # 303 ( id 57 mem 0) 0 org | cr
+| br
+: main = $0 @ up b! !b main = $0 ; | cr
+
+{block 912}
+( -) # 302 ( id 56 mem 0) 0 org | cr
+| br
+: 1if = $0 | cr
+  .. -if drop @b ! ; ] then drop = $0 ; | cr
+: 2if = $0 | cr
+  .. if drop @b dup ! 1if ; ] then drop = $0 ; | cr
+: pout = $0 left b! @b right b! !b = $0 ; | cr
+: main = $0 up b! @b dup ! 2if pout main = $0 ; | cr
+
+{block 910}
+( -) # 301 ( id 55 mem 0) 0 org | cr
+| br
+: pout = $0 dup dup or dup dup or push drop pop | cr
+  7 for | cr
+    dup @ . + push drop pop next dup left b! !b drop = $0 ; | cr
+: main = $0 up b! @b dup ! drop pout main = $0 ; | cr
+
+{block 884}
+( -) # 206 ( id 42 mem 14) 0 org | cr
+0 , 262124 , 32 , 22 , 0 , 0 , 0 , 0 , 312 , 299 , 261910 , 261832 , 261924 , 220 , | br
+: 6rep = $0 | cr
+  for | cr
+    +* unext = $0 ; | cr
+: group = $0 dup dup or left b! @b push drop pop | cr
+  dup dup or a! 13 for | cr
+    @+ over - 1 . + . + 
+    -if - 1 . + then dup a push a! dup dup or 17 6rep push dup or pop 8 6rep drop drop a pop a! !b next drop = $0 ; | cr
+: main = $0 group main = $0 ; | cr
+
+{block 882}
+( -) # 205 ( id 41 mem 9) 0 org | cr
+0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: 1if = $0 | cr
+  .. -if drop dup !b 8 b! @b 4 b! !b ; ] then drop = $0 ; | cr
+: group = $0 a push dup dup or a! !+ !+ !+ pop a! 2 b! @b ! 1 b! @b left b! !b dup dup or b! @b up b! !b 130560 3 b! !b dup dup or | cr
+  dup dup or 8 b! !b 13 for | cr
+    @ left b! @b up b! @b . + 7 . + push drop pop dup 3 b! @b - 1 . + . + 1if 8 b! @b 1 . + !b next 4 b! @b right b! !b drop = $0 ; | cr
+: act41 = $0 @ @ @ group = $0 ; | cr
+
+{block 878}
+( -) # 203 ( id 39 mem 0) 0 org | cr
+| br
+: pinc = $0 @b ! = $0 ; | cr
+: main = $0 @ up b! !b @ !b pinc main = $0 ; | cr
+
+{block 876}
+( -) # 202 ( id 38 mem 8) 0 org | cr
+0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: 5rep = $0 drop | cr
+  dup dup or a! 7 for | cr
+    @b !+ next = $0 ; | cr
+: 1if = $0 | cr
+  .. -if 5rep ; ] then 5rep = $0 ; | cr
+: pinc = $0 up b! @b 1if = $0 ; | cr
+: swap = $0 | cr
+  dup dup or a! 7 for | cr
+    @+ over | cr
+    .. if -1 . + | cr
+      for | cr
+        2* unext dup then drop left b! !b next drop = $0 ; | cr
+: 2if = $0 | cr
+  .. -if drop down b! @b swap ; ] then drop dup dup or swap = $0 ; | cr
+: 3if = $0 | cr
+  .. if drop pinc down b! @b dup left b! !b 2if ; ] then drop = $0 ; | cr
+: main = $0 down b! @b 3if main = $0 ; | cr
+
+{block 874}
+( -) # 201 ( id 37 mem 8) 0 org | cr
+0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: 1if = $0 | cr
+  .. -if drop | cr
+    7 for | cr
+      | cr
+      dup dup or a! 7 for | cr
+        @+ !b next next ; ] then drop = $0 ; | cr
+: pinc = $0 up b! @b 1if = $0 ; | cr
+: pout = $0 | cr
+  dup dup or a! 7 for | cr
+    @+ down b! !b next = $0 ; | cr
+: swap = $0 | cr
+  dup dup or a! 7 for | cr
+    @b !+ next = $0 ; | cr
+: 2if = $0 | cr
+  .. -if drop swap ; ] then drop swap = $0 ; | cr
+: 3if = $0 | cr
+  .. if drop pinc left b! @b 2if ; ] then drop = $0 ; | cr
+: main = $0 down b! @b 3if pout main = $0 ; | cr
+
+{block 872}
+( -) # 200 ( id 36 mem 40) 0 org | cr
+0 , 0 , 0 , 43691 , 43691 , 43691 , 0 , 0 , 0 , 0 , 0 , 0 , 43691 , 43691 , 43691 , 0 , 0 , 0 , 0 , 0 , 0 , 43691 , 43691 , 43691 , 0 , 0 , 0 , 0 , 0 , 0 , 65536 , 65536 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 131059 , | br
+: geta2 = $0 dup -24 . + b! @b ! drop = $0 ; | cr
+: act36 = $0 @ geta2 = $0 ; | cr
+
+{block 846}
+( -) # 105 ( id 23 mem 14) 0 org | cr
+0 , 546 , 560 , 537 , 0 , 261924 , 261832 , 261924 , 0 , 543 , 543 , 0 , 261924 , 261924 , | br
+: 4rep = $0 | cr
+  for | cr
+    +* unext = $0 ; | cr
+: group = $0 dup dup or up b! @b push drop pop | cr
+  dup dup or a! 13 for | cr
+    @+ over - 1 . + . + 
+    -if - 1 . + then dup a push a! dup dup or 17 4rep push dup or pop 8 4rep drop drop a pop a! !b next drop = $0 ; | cr
+: main = $0 group main = $0 ; | cr
+
+{block 844}
+( -) # 104 ( id 22 mem 8) 0 org | cr
+131059 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: 1if = $0 | cr
+  .. -if drop ; ] then drop | cr
+    dup dup or a! 7 for | cr
+      @+ !b next = $0 ; | cr
+: pinc = $0 left b! @b 1if = $0 ; | cr
+: main = $0 pinc main = $0 ; | cr
+
+{block 840}
+( -) # 102 ( id 20 mem 3) 0 org | cr
+0 , 0 , 0 , | br
+: 1if = $0 | cr
+  .. -if drop | cr
+    7 for | cr
+      left b! @b right b! @b a push *.17 push drop pop pop a! 1 b! !b @b up b! !b dup 1 b! @b over - and . + push drop pop next ; ] then drop -1 dup dup or b! !b | cr
+    7 for | cr
+      right b! @b up b! !b next -131072 push drop pop = $0 ; | cr
+: pinc = $0 dup dup or dup dup or push drop pop dup dup or b! @b dup up b! !b dup left b! !b dup right b! !b 1if dup right b! !b drop = $0 ; | cr
+: main = $0 pinc main = $0 ; | cr
+
+{block 836}
+( -) # 100 ( id 18 mem 25) 0 org | cr
+43691 , 43691 , 43691 , 0 , 0 , 0 , 0 , 0 , 0 , 43691 , 43691 , 43691 , 0 , 0 , 0 , 0 , 0 , 0 , 43691 , 43691 , 43691 , 0 , 0 , 0 , 0 , | br
+: geta2 = $0 @b = $0 ; | cr
+: 1if = $0 | cr
+  .. -if drop dup b! @b 24 b! !b ; ] then drop up b! @p [ .. act36 .. ] !b dup up b! !b geta2 24 b! !b = $0 ; | cr
+: geta = $0 dup 24 - 1 . + . + 1if @b ! drop = $0 ; | cr
+: act18 = $0 @ geta = $0 ; | cr
+
+{block 838}
+( -) # 101 ( id 19 mem 2) 0 org | cr
+0 , 0 , | br
+: geta = $0 @b = $0 ; | cr
+: 1if = $0 | cr
+  .. -if drop | cr
+    dup dup or dup dup or b! !b 7 for | cr
+      dup dup or push drop pop | cr
+      dup dup or 1 b! !b 7 for | cr
+        dup up b! @b right b! @p [ .. act18 .. ] !b 1 b! @b 2* 2* 2* dup dup or b! @b . + right b! !b geta a push *.17 push drop pop pop a! . + push drop pop 1 b! @b 1 . + !b next dup left b! !b dup dup or b! @b 1 . + !b next ; ] then drop = $0 ; | cr
+: pinc = $0 dup dup or left b! @b dup up b! !b 1if drop = $0 ; | cr
+: main = $0 pinc main = $0 ; | cr
+
+{block 800}
+( -) # 0 ( id 0 mem 28) 0 org | cr
+26804 , 24248 , 21861 , 10931 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: getb4 = $0 dup -84 . + b! @b ! drop = $0 ; | cr
+: act0 = $0 @ getb4 = $0 ; | cr
+
+{block 802}
+( -) # 1 ( id 1 mem 29) 0 org | cr
+0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 34069 , 20407 , 16139 , 8729 , 12240 , 18465 , 26403 , 30709 , 20917 , 53012 , 45529 , 29371 , 0 , | br
+: getb4 = $0 @ = $0 ; | cr
+: 1if = $0 | cr
+  .. -if drop dup -56 . + b! @b 28 b! !b ; ] then drop @p [ .. act0 .. ] ! dup ! getb4 28 b! !b = $0 ; | cr
+: getb3 = $0 dup 84 - 1 . + . + 1if @b left b! !b drop = $0 ; | cr
+: act1 = $0 left b! @b getb3 = $0 ; | cr
+
+{block 804}
+( -) # 2 ( id 2 mem 29) 0 org | cr
+16701 , 15895 , 16455 , 40105 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: getb3 = $0 @ = $0 ; | cr
+: 1if = $0 | cr
+  .. -if drop dup -28 . + b! @b 28 b! !b ; ] then drop @p [ .. act1 .. ] ! dup ! getb3 28 b! !b = $0 ; | cr
+: getb2 = $0 dup 56 - 1 . + . + 1if @b right b! !b drop = $0 ; | cr
+: act2 = $0 right b! @b getb2 = $0 ; | cr
+
+{block 806}
+( -) # 3 ( id 3 mem 29) 0 org | cr
+0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 1161 , 8306 , 13214 , 24976 , 28879 , 31077 , 27488 , 19147 , 73452 , 41191 , 45202 , 51224 , 46448 , 41388 , 38865 , 30180 , 1474 , 8156 , 10988 , 16771 , 0 , | br
+: getb2 = $0 @b = $0 ; | cr
+: 1if = $0 | cr
+  .. -if drop dup b! @b 28 b! !b ; ] then drop right b! @p [ .. act2 .. ] !b dup right b! !b getb2 28 b! !b = $0 ; | cr
+: getb = $0 dup 28 - 1 . + . + 1if @b ! drop = $0 ; | cr
+: act3 = $0 @ getb = $0 ; | cr
+
+{block 842}
+( -) # 103 ( id 21 mem 1) 0 org | cr
+0 , | br
+: 3rep = $0 right b! !b dup dup or b! @b 1 . + !b = $0 ; | cr
+: 1rep = $0 down b! @p [ .. act3 .. ] !b = $0 ; | cr
+: getb = $0 @b = $0 ; | cr
+: 2rep = $0 2* 2* 2* dup dup or b! @b . + down b! !b getb = $0 ; | cr
+: 1if = $0 | cr
+  .. -if drop | cr
+    dup dup or dup dup or b! !b 7 for | cr
+      1rep dup 2rep 3rep next ; ] then drop | cr
+    dup dup or dup dup or b! !b 7 for | cr
+      left b! @b 1rep over 2rep a push *.17 push drop pop pop a! 3rep next = $0 ; | cr
+: pinc = $0 right b! @b dup left b! !b 1if right b! @b up b! !b drop = $0 ; | cr
+: act21 = $0 up b! @b pinc = $0 ; | cr
+
+{block 880}
+( -) # 204 ( id 40 mem 0) 0 org | cr
+| br
+: pinc = $0 @ = $0 ; | cr
+: group = $0 right b! @b = $0 ; | cr
+: input = $0 @p [ .. act21 .. ] ! right b! @p [ .. act41 .. ] !b group ! pinc down b! !b = $0 ; | cr
+: 1if = $0 | cr
+  .. if drop input ; ] then drop = $0 ; | cr
+: main = $0 down b! @b 1if main = $0 ; | cr
+

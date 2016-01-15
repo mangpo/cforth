@@ -59,18 +59,274 @@
 516 +node 516 /ram left dup /a /p right /b | ,
 
 {block 790}
-( fir) host | *
-target | cr
-0 node 10 fh load
+host target | cr
+509 node 998 load
+508 node 996 load
+507 node 994 load
+506 node 992 load
+505 node 990 load
+504 node 988 load
+503 node 986 load
+502 node 984 load
+501 node 982 load
+405 node 954 load
+404 node 952 load
+403 node 950 load
+402 node 948 load
+401 node 946 load
+305 node 918 load
+304 node 916 load
+303 node 914 load
+302 node 912 load
+301 node 910 load
+206 node 884 load
+205 node 882 load
+203 node 878 load
+201 node 874 load
+202 node 876 load
 
 {block 792}
-( - load descriptor)
-: /node ( n) dup +node /ram ; | cr
-0 /node $0 /p
+: /node dup +node /ram ; | cr
+000 /node $0 /p
 
-{block 800}
-( -) # 0 0 org | cr
-0 , 0 , 0 , 0 , 44 , 55 , | cr
-: call dup ;
-: add for call next ;
+{block 998}
+( -) # 509 ( id 99 mem 3) 0 org | cr
+0 , 0 , 0 , | br
+: 16rep = $0 - 1 . + . + dup ! = $0 ; | cr
+: 15rep = $0 drop @b 205 . + @ 16rep drop = $0 ; | cr
+: 14rep = $0 15rep @ = $0 ; | cr
+: 13rep = $0 b! @b 205 - 1 . + . + 16rep = $0 ; | cr
+: 1if = $0 | cr
+  .. if drop @ dup dup or 13rep 14rep 1 13rep 14rep 2 13rep 15rep ; ] then drop = $0 ; | cr
+: 2if = $0 | cr
+  .. if drop @ dup dup or b! !b @ 1 b! !b @ 2 b! !b ; ] then drop = $0 ; | cr
+: main = $0 @ 1if @ 2if warm = $0 ; | cr
+
+{block 996}
+( -) # 508 ( id 98 mem 3) 0 org | cr
+0 , 0 , 0 , | br
+: 12rep = $0 | cr
+  .. -if drop 1 push drop pop ; ] then drop = $0 ; | cr
+: 7if = $0 | cr
+  .. if drop dup dup or push drop pop dup dup or b! @b ! @ 12rep @b ! @ 12rep 1 b! @b ! @ 12rep @b ! @ 12rep 2 b! @b ! @ 12rep @b ! @ 12rep ; ] then drop = $0 ; | cr
+: 8if = $0 | cr
+  .. if drop dup dup or b! @b ! 1 b! @b ! 2 b! @b ! ; ] then drop = $0 ; | cr
+: main = $0 left b! @b dup dup or b! !b left b! @b 1 b! !b left b! @b 2 b! !b dup dup or left b! @b push drop pop dup dup ! 7if dup dup ! 8if dup left b! !b drop warm = $0 ; | cr
+
+{block 994}
+( -) # 507 ( id 97 mem 1) 0 org | cr
+0 , | br
+: 11rep = $0 | cr
+  .. -if drop 1 push drop pop ; ] then drop = $0 ; | cr
+: main = $0 right b! @b dup dup or b! !b dup dup or dup dup or push drop pop 563 @b - 1 . + . + 11rep @b 461 - 1 . + . + 11rep right b! @b ! @b ! @b ! dup ! @ !b drop warm = $0 ; | cr
+
+{block 992}
+( -) # 506 ( id 96 mem 2) 0 org | cr
+0 , 0 , | br
+: 9rep = $0 | cr
+  for | cr
+    +* unext = $0 ; | cr
+: 10rep = $0 
+  -if - 1 . + then dup a push a! dup dup or 17 9rep push dup or pop 8 9rep drop drop a pop a! = $0 ; | cr
+: filter = $0 a push dup dup or a! push !+ !+ pop pop a! 1 b! @b 10rep dup dup or b! @b 10rep . + over 10rep . + ! 1 b! @b ! dup dup or b! @b ! dup ! @ left b! !b drop = $0 ; | cr
+: main = $0 left b! @b @b @b filter warm = $0 ; | cr
+
+{block 990}
+( -) # 505 ( id 95 mem 6) 0 org | cr
+0 , 0 , -5 , 56 , 568 , 0 , | br
+: 1while = $0 dup ! @ | cr
+  .. -if drop dup ! @ push drop pop 1while ; ] then drop = $0 ; | cr
+: pout = $0 @ = $0 ; | cr
+: input = $0 a push dup dup or a! !+ !+ push pop pop a! dup ! 1 b! @b ! dup dup or b! @b ! right b! @b push drop pop = $0 ; | cr
+: 2if = $0 | cr
+  .. if drop dup dup or push drop pop dup 2 b! @b 3 b! @b 4 b! @b input over - and . + push drop pop 1while ; ] then drop = $0 ; | cr
+: filter = $0 @b = $0 ; | cr
+: main = $0 dup dup or 2 b! @b left b! !b 3 b! @b left b! !b 4 b! @b left b! !b drop filter dup right b! !b dup ! 2if pout 5 b! !b warm = $0 ; | cr
+
+{block 988}
+( -) # 504 ( id 94 mem 0) 0 org | cr
+| br
+: input = $0 down b! @b ! = $0 ; | cr
+: 1if = $0 | cr
+  .. if drop input ; ] then drop = $0 ; | cr
+: main = $0 @ dup down b! !b dup left b! !b 1if warm = $0 ; | cr
+
+{block 986}
+( -) # 503 ( id 93 mem 0) 0 org | cr
+| br
+: main = $0 @ dup down b! !b dup right b! !b drop warm = $0 ; | cr
+
+{block 984}
+( -) # 502 ( id 92 mem 0) 0 org | cr
+| br
+: main = $0 @ dup down b! !b dup left b! !b drop warm = $0 ; | cr
+
+{block 982}
+( -) # 501 ( id 91 mem 0) 0 org | cr
+| br
+: main = $0 @ dup down b! !b drop warm = $0 ; | cr
+
+{block 954}
+( -) # 405 ( id 77 mem 0) 0 org | cr
+| br
+: 1while = $0 @ dup dup or - 1 . + . + dup ! | cr
+  .. -if drop dup 1 . + push drop pop @ 2* ! 1while ; ] then drop = $0 ; | cr
+: 2if = $0 | cr
+  .. -if drop dup 3 - 1 . + . + push drop pop dup !b ; ] then drop = $0 ; | cr
+: pout = $0 right b! @b ! = $0 ; | cr
+: input = $0 @ up b! !b @ !b @ !b = $0 ; | cr
+: 3if = $0 | cr
+  .. if drop input dup dup or push drop pop 1while 3 over - 1 . + . + dup right b! !b 2if ; ] then drop = $0 ; | cr
+: main = $0 dup dup or @ 3if pout warm = $0 ; | cr
+
+{block 952}
+( -) # 404 ( id 76 mem 0) 0 org | cr
+| br
+: 1if = $0 | cr
+  .. -if drop @b ! ; ] then drop = $0 ; | cr
+: pout = $0 left b! @b right b! !b = $0 ; | cr
+: input = $0 @ !b = $0 ; | cr
+: 2if = $0 | cr
+  .. if drop input right b! @b dup ! 1if ; ] then drop = $0 ; | cr
+: main = $0 down b! @b dup ! 2if pout warm = $0 ; | cr
+
+{block 950}
+( -) # 403 ( id 75 mem 0) 0 org | cr
+| br
+: pout = $0 @ left b! !b = $0 ; | cr
+: main = $0 down b! @b dup ! drop pout warm = $0 ; | cr
+
+{block 948}
+( -) # 402 ( id 74 mem 0) 0 org | cr
+| br
+: main = $0 down b! @b dup ! drop warm = $0 ; | cr
+
+{block 946}
+( -) # 401 ( id 73 mem 0) 0 org | cr
+| br
+: main = $0 down b! @b dup ! drop warm = $0 ; | cr
+
+{block 918}
+( -) # 305 ( id 59 mem 14) 0 org | cr
+312 , 228 , -3 , -269 , -312 , -220 , 0 , 220 , 0 , 31 , -2 , 0 , 0 , 0 , | br
+: 8rep = $0 up b! @b down b! !b = $0 ; | cr
+: 7rep = $0 | cr
+  for | cr
+    +* unext = $0 ; | cr
+: group = $0 dup dup or @b push drop pop | cr
+  dup dup or a! 13 for | cr
+    @+ over - 1 . + . + 
+    -if - 1 . + then dup a push a! dup dup or 17 7rep push dup or pop 8 7rep drop drop a pop a! !b next drop = $0 ; | cr
+: main = $0 8rep 8rep 8rep group main warm = $0 ; | cr
+
+{block 916}
+( -) # 304 ( id 58 mem 0) 0 org | cr
+| br
+: 1if = $0 | cr
+  .. -if drop @ !b ; ] then drop = $0 ; | cr
+: inc = $0 left b! @b down b! !b = $0 ; | cr
+: input = $0 inc @b ! = $0 ; | cr
+: 2if = $0 | cr
+  .. if drop input @ dup left b! !b 1if ; ] then drop = $0 ; | cr
+: main = $0 @ dup down b! !b 2if warm = $0 ; | cr
+
+{block 914}
+( -) # 303 ( id 57 mem 0) 0 org | cr
+| br
+: 1if = $0 | cr
+  .. -if drop @b ! ; ] then drop = $0 ; | cr
+: inc = $0 @ left b! !b = $0 ; | cr
+: out = $0 @ up b! !b = $0 ; | cr
+: 2if = $0 | cr
+  .. if drop inc @b dup ! 1if ; ] then drop = $0 ; | cr
+: main = $0 up b! @b 2if out warm = $0 ; | cr
+
+{block 912}
+( -) # 302 ( id 56 mem 0) 0 org | cr
+| br
+: 1if = $0 | cr
+  .. -if drop @ !b ; ] then drop = $0 ; | cr
+: inc = $0 @b ! = $0 ; | cr
+: out = $0 left b! @b ! = $0 ; | cr
+: 2if = $0 | cr
+  .. if drop inc @ dup !b 1if ; ] then drop = $0 ; | cr
+: main = $0 up b! @b dup down b! !b 2if out warm = $0 ; | cr
+
+{block 910}
+( -) # 301 ( id 55 mem 0) 0 org | cr
+| br
+: out = $0 dup dup or dup dup or push drop pop | cr
+  7 for | cr
+    dup @ . + push drop pop next dup left b! !b drop = $0 ; | cr
+: main = $0 up b! @b dup ! drop out warm = $0 ; | cr
+
+{block 884}
+( -) # 206 ( id 42 mem 14) 0 org | cr
+0 , -20 , 32 , 22 , 0 , 0 , 0 , 0 , 312 , 299 , -234 , -312 , -220 , 220 , | br
+: 6rep = $0 | cr
+  for | cr
+    +* unext = $0 ; | cr
+: group = $0 dup dup or left b! @b push drop pop | cr
+  dup dup or a! 13 for | cr
+    @+ over - 1 . + . + 
+    -if - 1 . + then dup a push a! dup dup or 17 6rep push dup or pop 8 6rep drop drop a pop a! !b next drop = $0 ; | cr
+: main = $0 group main warm = $0 ; | cr
+
+{block 882}
+( -) # 205 ( id 41 mem 9) 0 org | cr
+0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: 1if = $0 | cr
+  .. -if drop dup !b 8 b! @b 4 b! !b ; ] then drop = $0 ; | cr
+: group = $0 a push dup dup or a! !+ !+ !+ pop a! 2 b! @b ! 1 b! @b left b! !b dup dup or b! @b up b! !b 130560 3 b! !b dup dup or | cr
+  dup dup or 8 b! !b 13 for | cr
+    @ left b! @b up b! @b . + . + push drop pop dup 3 b! @b - 1 . + . + 1if 8 b! @b 1 . + !b next 4 b! @b right b! !b drop = $0 ; | cr
+: act41 = $0 @ @ @ group = $0 ; | cr
+
+{block 878}
+( -) # 203 ( id 39 mem 0) 0 org | cr
+| br
+: main = $0 @ up b! !b @ !b main warm = $0 ; | cr
+
+{block 876}
+( -) # 202 ( id 38 mem 8) 0 org | cr
+0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: 5rep = $0 drop | cr
+  dup dup or a! 7 for | cr
+    up b! @b !+ next = $0 ; | cr
+: 1if = $0 | cr
+  .. -if 5rep ; ] then 5rep = $0 ; | cr
+: inc = $0 @b dup left b! !b 1if @b down b! !b = $0 ; | cr
+: swap = $0 | cr
+  dup dup or a! 7 for | cr
+    @+ over | cr
+    .. if -1 . + | cr
+      for | cr
+        2* unext dup then drop left b! !b next drop = $0 ; | cr
+: 2if = $0 | cr
+  .. -if drop down b! @b swap ; ] then drop dup dup or swap = $0 ; | cr
+: 3if = $0 | cr
+  .. if drop inc @b dup left b! !b 2if ; ] then drop = $0 ; | cr
+: main = $0 down b! @b dup up b! !b 3if warm = $0 ; | cr
+
+{block 874}
+( -) # 201 ( id 37 mem 8) 0 org | cr
+0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , | br
+: 1if = $0 | cr
+  .. -if drop | cr
+    7 for | cr
+      | cr
+      dup dup or a! 7 for | cr
+        @+ up b! !b next next ; ] then drop = $0 ; | cr
+: inc = $0 left b! @b 1if = $0 ; | cr
+: out = $0 | cr
+  dup dup or a! 7 for | cr
+    @+ down b! !b next = $0 ; | cr
+: swap = $0 | cr
+  dup dup or a! 7 for | cr
+    @b !+ next = $0 ; | cr
+: 2if = $0 | cr
+  .. -if drop swap ; ] then drop swap = $0 ; | cr
+: 3if = $0 | cr
+  .. if drop inc left b! @b 2if ; ] then drop = $0 ; | cr
+: main = $0 down b! @b 3if out warm = $0 ; | cr
 
