@@ -2,7 +2,7 @@ CF2F=./cf2f.py
 F2CF=./f2cf.py
 BACK_CF=./OkadBack.cf
 WORK_CF=./OkadWo2rk.cf
-NEW_CFS= hmm2.cfs
+NEW_CFS= hmm_opt.cfs
 
 all: work.cf
 
